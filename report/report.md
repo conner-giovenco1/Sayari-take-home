@@ -61,7 +61,7 @@ In all, **30 of 49 suppliers** appear in the appendix. Most two-hop chains run t
 - **Dates changed the headline three times.** One of BASF's split records held the İlmor shipment (4 high). Dating trades by their latest shipment, not the first, added ZF, Infineon and Hyundai Wia (7). Then the shipment search, which dates every shipment, showed what the summary missed: ZF's KAMAZ deliveries ran to June 2022, Schaeffler's AvtoVAZ ones to Nov 2023, Meritor's Ozkaya ones to Jan 2024.
 
 ## Why this needs Sayari
-A name screen of these 49 suppliers finds nothing. Sayari's shipment-level trade data, ownership graph and per-list tags found ZF's gearboxes reaching KAMAZ after the EU ban, post-restriction shipments by two subsidiaries (it takes ownership to reach them), and 7 suppliers trading with companies before regulators acted.
+A name screen of these 49 suppliers finds nothing. Sayari's shipment data, ownership graph and per-list tags found ZF's gearboxes reaching KAMAZ after the EU ban, post-restriction shipments by two subsidiaries, a renamed sanctioned supplier that name searches miss (Robert Bosch Samara), and 7 suppliers trading with firms before regulators acted.
 
 ## What I'd do next
 - **Score on Sayari's listing dates** (already in the output), not the invasion date, **monitor** with Sayari's alerts, and **match by ID** (LEI or tax number; Sayari holds one for 46 of the 49) from the client's vendor master.
