@@ -15,6 +15,7 @@ table:first-of-type td:nth-child(3) { white-space: nowrap; }  /* headline table:
 table:first-of-type td:nth-child(1), table:first-of-type td:nth-child(4) { white-space: nowrap; }  /* supplier, listing */
 h2.appendix { page-break-before: always; }
 tr { break-inside: avoid; }  /* a table may split between rows, never inside one */
+table:first-of-type + p { font-size: 8.2pt; color: #555; }  /* the headline table's notes read as a caption */
 </style></head><body><h1>Hidden risk in an automotive supplier base</h1>
 <p><strong>A proof of concept on Sayari's API for a carmaker's procurement and compliance team</strong> · Conner Giovenco · November 2026</p>
 <h2>The client's question</h2>
@@ -130,7 +131,7 @@ tr { break-inside: avoid; }  /* a table may split between rows, never inside one
 </tr>
 </tbody>
 </table>
-<p>Dates are customs dates: dispatch if recorded, else arrival. US = OFAC SDN list; UK = UK sanctions list. Listing dates are Sayari's (EU dates as in the EU's Official Journal), except KAMAZ's EU ban. ¹ Matched by name. ² Vitesco joined Schaeffler in Oct 2024. ³ Listed as NAMI Innovative Components: state-owned NAMI bought and renamed it in June 2023. A name search for "Bosch" misses it; Sayari's record links the two names.</p>
+<p>Customs dates (dispatch, else arrival). US = OFAC SDN list; UK = UK sanctions list. Listing dates are Sayari's, except KAMAZ's EU ban; EU dates as in the Official Journal. ¹ Matched by name. ² Vitesco joined Schaeffler in Oct 2024. ³ Now NAMI Innovative Components (state-owned NAMI bought it in June 2023): a name search for "Bosch" misses it; Sayari's record links the two names.</p>
 <p><strong>Next steps for the compliance team:</strong> (1) ask ZF and Mahle for the contract dates and any authorisation behind their KAMAZ shipments, Cummins/Meritor about Ozkaya, and Schaeffler about any US link to its late-2023 AvtoVAZ shipments; (2) check whether the other relationships continued after each listing. Listing dates (Sayari's and official) for the 40 trades: <code>data/designation_dates.tsv</code>.</p>
 <p><strong>All 49 suppliers at a glance</strong> (the four cases above come first, whatever their level). A <em>hop</em> = one step (owner, subsidiary, buyer or seller); <em>listed</em> = on a US, EU or UK list today.</p>
 <table>

@@ -39,6 +39,7 @@ table:first-of-type td:nth-child(3) { white-space: nowrap; }  /* headline table:
 table:first-of-type td:nth-child(1), table:first-of-type td:nth-child(4) { white-space: nowrap; }  /* supplier, listing */
 h2.appendix { page-break-before: always; }
 tr { break-inside: avoid; }  /* a table may split between rows, never inside one */
+table:first-of-type + p { font-size: 8.2pt; color: #555; }  /* the headline table's notes read as a caption */
 """
 
 
