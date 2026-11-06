@@ -45,10 +45,10 @@ tr { break-inside: avoid; }  /* a table may split between rows, never inside one
 def main():
     """Turn report/report.md into report.html, then print that to report.pdf with headless Chrome if found."""
     report = Path("report")
-    body = markdown.markdown((report / "report.md").read_text(), extensions=["tables"])
+    body = markdown.markdown((report / "report.md").read_text(encoding="utf-8"), extensions=["tables"])
     html = report / "report.html"
     html.write_text(f"<!doctype html><html><head><meta charset='utf-8'><style>{CSS}</style></head>"
-                    f"<body>{body}</body></html>")
+                    f"<body>{body}</body></html>", encoding="utf-8")
     chrome = find_chrome()
     if chrome is None:
         print("wrote report/report.html (no Chrome/Chromium found, so the PDF was not rebuilt)")

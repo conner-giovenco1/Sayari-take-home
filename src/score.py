@@ -112,16 +112,26 @@ def is_listed(target):
                   if k.startswith(RELEVANT_LISTS) and k in catalogue.index and catalogue.loc[k, "risk_type"] == "seed")
 
 
+# The one listing date Sayari's data misses, checked against the EU's legal text: KAMAZ has been under the EU's
+# Annex XIX transaction ban since 16 Mar 2022 (Council Regulation (EU) 2022/428), but Sayari's earliest US/EU/UK
+# date for it is the UK listing of 4 May 2022.
+LISTING_DATE_CORRECTIONS = {"7h4KiPgnAb6t497bGQSXRA": "2022-03-16"}  # KAMAZ
+
+
 def listed_since(target):
     """The earliest date Sayari gives for a party's US/EU/UK listings, or None if it gives none.
 
     Sayari stores the date on each list flag (risk metadata `from_date`). These matched official sources for every
-    party checked by hand, except KAMAZ, where Sayari's record misses the EU's 16 Mar 2022 trade ban."""
+    party checked by hand, except KAMAZ, where Sayari's record misses the EU's 16 Mar 2022 trade ban (see
+    LISTING_DATE_CORRECTIONS)."""
     risk = target.get("risk") or {}
     dates = []
     for flag in is_listed(target):
         value = (risk[flag].get("metadata") or {}).get("from_date")
         dates += [d[:10] for d in (value if isinstance(value, list) else [value]) if d]
+    entity_id = target.get("id") or (target.get("entity_url") or "").split("/")[-1]
+    if entity_id in LISTING_DATE_CORRECTIONS:
+        dates.append(LISTING_DATE_CORRECTIONS[entity_id])
     return min(dates, default=None)
 
 
@@ -364,7 +374,7 @@ def refine_with_shipments(link, own_records=()):
     for (field, frm, to), step in zip(link["_pairs"], [s for s in link["_steps"] if s["field"] in TRADE]):
         # A direct trade is searched from every record of the supplier, since its shipments can be split across them.
         starts = list(dict.fromkeys([frm] + list(own_records))) if link["hops"] == 1 else [frm]
-        rows, complete, any_found = {}, True, False
+        rows = {}
         pairs = [(start, to) if field in SELLS_TO else (to, start) for start in starts]
         if link["hops"] == 1:
             # Both directions: Sayari's path shows only one, but trade can run both ways (ZF buys from ZF Kama
@@ -373,15 +383,14 @@ def refine_with_shipments(link, own_records=()):
         for seller, buyer in pairs:
             got = shipments(seller, buyer)
             if got:
-                any_found = True
                 rows.update({s["id"]: s for s in got[0]})
-                complete = complete and got[1]
-        found = (list(rows.values()), complete) if any_found else None
-        dates = sorted(d for d in (shipment_day(s) for s in (found or ([], True))[0]) if d)
+        dates = sorted((d for d in (shipment_day(s) for s in rows.values()) if d), key=day)
         if dates:
-            latest.append((dates[-1], "shipment" if found[1] else "at least"))
+            # Sayari returns shipments newest first, so a search that stopped early (the 5,000 cap) still holds the
+            # latest one: only the oldest can be missing, so the first date is the earliest seen.
+            latest.append((dates[-1], "shipment"))
             first.append(dates[0])
-            total += len(found[0])
+            total += len(rows)
         else:  # the search found no shipments for this step: fall back to the relationship summary's dates
             first_date, last_date, basis = step_dates(step)
             latest.append((last_date, basis))
@@ -403,6 +412,8 @@ def after_listing(link):
     if date == ONGOING:
         return "current stake"
     if not date or not listed:
+        return "unknown"
+    if len(date) < 10 and listed.startswith(date):  # a month-only date in the listing's own month can't settle it
         return "unknown"
     after = day(date) > listed
     if (after and basis == "at most") or (not after and basis == "at least"):

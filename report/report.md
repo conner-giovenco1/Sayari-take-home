@@ -12,7 +12,7 @@
 3. **Schaeffler → AvtoVAZ (Russian carmaker): inside the US grace period.** Three shipments in Oct–Nov 2023, after the US sanctioned AvtoVAZ (14 Sep) but before its grace period ended (13 Dec); the EU listed AvtoVAZ only in 2025.
 4. **Mahle → KAMAZ: possibly inside the EU grace period.** One shipment from its subsidiary Mahle Behr, 7 Apr 2022.
 
-**Early warnings: 7 suppliers (including ZF and Schaeffler) traded directly after the invasion (24 Feb 2022) with companies the US, EU or UK sanctioned only later.** Their 12 other trades all came before the sanction: not breaches, but a sanctions-list check of these seven names finds nothing. (Bans on specific goods were not checked.)
+**Early warnings: 7 suppliers (including ZF and Schaeffler) traded directly after the invasion (24 Feb 2022) with companies the US, EU or UK sanctioned only later.** Their 13 other trades all came before the sanction: not breaches, but a sanctions-list check of these seven names finds nothing. (Bans on specific goods were not checked.)
 
 | Supplier | Sayari's shipments to/from (count) | Latest shipment | First trade restriction |
 |---|---|---|---|
@@ -21,17 +21,18 @@
 | | **to AvtoVAZ** (35), Russian carmaker | 8 May 2022 | US 14 Sep 2023 |
 | | **to/from ZF Kama** (5,000+), ZF–KAMAZ joint venture, Russia | 13 Dec 2022 | EU asset freeze 12 Oct 2026 |
 | **Schaeffler** | **to AvtoVAZ** (313) | **7 Nov 2023** | **US 14 Sep 2023: 3 after** |
-| | **to UAZ** (1), Russian vehicle maker | 30 Mar 2022 | EU asset freeze 2 Jun 2022 |
+| | **to UAZ** (1), Russian vehicle maker | 30 Mar 2022 | EU asset freeze 3 Jun 2022 |
 | | **to Ulyanovsk Machine Tool Plant** (14), Russia¹ | 10 Mar 2022 | EU asset freeze 18 Jul 2025 |
-| | Vitesco Mexico **from Yangzhou Yangjie** (2), China² | 18 Jun 2024 | EU asset freeze 22 Apr 2026 |
+| | Vitesco Mexico **from Yangzhou Yangjie** (2), China² | 18 Jun 2024 | EU asset freeze 23 Apr 2026 |
 | **Bosch** | **to ZapchastTrade** (967), Kazakhstan | 3 Sep 2024 | UK 7 Nov 2024 |
+| | **from Robert Bosch Samara** (2,260), Russia³ | 9 Feb 2023 | US 23 Feb 2024 |
 | **Brose** | **to NAMI** (1), Russian state auto institute | 20 Jan 2023 | US 23 Feb 2024 |
 | | **to Aurus** (1), Russian vehicle maker | 20 Apr 2022 | US 23 Feb 2024 |
 | **BASF** | surfactants **to İlmor Kimya** (1), Turkey | 28 Oct 2023 | EU export restriction 20 Jul 2025 |
 | **Infineon** | **to Compel** (63), Russian electronics distributor | 1 Mar 2022 | US 20 Jul 2023 |
 | **Hyundai Wia** | **to ATM Grupp** (25), Russian machine-tool firm | 2 Jul 2022 | US 23 Feb 2024 |
 
-Dates are customs dates: dispatch if recorded, else arrival. US = OFAC SDN list; UK = UK sanctions list. Listing dates are Sayari's, except KAMAZ's EU ban. ¹ Matched by name. ² Vitesco joined Schaeffler in Oct 2024. Robert Bosch Samara (Bosch traded with it to Feb 2023) is also US-listed: renamed NAMI Innovative Components after state-owned NAMI bought it in June 2023, it joined the SDN list on 23 Feb 2024, a year after Bosch's last shipment. A name search for "Bosch" misses it; Sayari's record links the two names.
+Dates are customs dates: dispatch if recorded, else arrival. US = OFAC SDN list; UK = UK sanctions list. Listing dates are Sayari's (EU dates as in the EU's Official Journal), except KAMAZ's EU ban. ¹ Matched by name. ² Vitesco joined Schaeffler in Oct 2024. ³ Listed as NAMI Innovative Components: state-owned NAMI bought and renamed it in June 2023. A name search for "Bosch" misses it; Sayari's record links the two names.
 
 **Next steps for the compliance team:** (1) ask ZF and Mahle for the contract dates and any authorisation behind their KAMAZ shipments, Cummins/Meritor about Ozkaya, and Schaeffler about any US link to its late-2023 AvtoVAZ shipments; (2) check whether the other relationships continued after each listing. Listing dates (Sayari's and official) for the 40 trades: `data/designation_dates.tsv`.
 

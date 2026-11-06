@@ -56,7 +56,7 @@ def call(method, path, params=None, body=None, timeout=90, attempts=4):
     are not retried."""
     cache_file = _cache_path(method, path, params, body)
     if cache_file.exists():
-        return json.loads(cache_file.read_text())
+        return json.loads(cache_file.read_text(encoding="utf-8"))
 
     problem = "no attempt made"
     for attempt in range(1, attempts + 1):
@@ -85,7 +85,7 @@ def call(method, path, params=None, body=None, timeout=90, attempts=4):
         if isinstance(data, dict) and data.get("partial_results"):
             return data  # not cached: a rerun should ask again rather than reuse a cut-off answer
         partial = cache_file.with_suffix(".part")  # write then rename, so an interrupted run never leaves half a file
-        partial.write_text(json.dumps(data, ensure_ascii=False))
+        partial.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
         partial.replace(cache_file)
         return data
 
