@@ -63,7 +63,7 @@ In all, **30 of 49 suppliers** appear in the appendix. Most two-hop chains run t
 A name screen of these 49 suppliers finds nothing. Sayari's shipment-level trade data, ownership graph and per-list tags found ZF's gearboxes reaching KAMAZ after the EU ban, post-restriction shipments by two subsidiaries (it takes ownership to reach them), and 7 suppliers trading with companies before regulators acted.
 
 ## What I'd do next
-- **Score on Sayari's listing dates** (already in the output), not the invasion date, **monitor** with Sayari's alerts, and **confirm the matches** with the client's vendor master.
+- **Score on Sayari's listing dates** (already in the output), not the invasion date, **monitor** with Sayari's alerts, and **match by ID** (LEI or tax number; Sayari holds one for 46 of the 49) from the client's vendor master.
 - **Go deeper:** tier-2/3 suppliers, negative news, labor risk (5 suppliers have a shipper flagged for forced labor).
 
 <h2 class="appendix">Appendix: the 30 suppliers with a direct or recent link</h2>
