@@ -8,11 +8,11 @@
 **Short answer: four sets of shipments, all from German companies, arrived after a sanction took effect.** Not necessarily illegal: sanctions usually allow a *wind-down* (a grace period for older contracts), so each case needs contract dates. Strongest first:
 
 1. **ZF → KAMAZ (Russian truck maker): after every grace period.** EU ban on 16 Mar 2022 (grace period to 15 May), asset freeze on 3 Jun. Four shipments arrived after the ban; the last (2.8 t of gearboxes, 16 Jun 2022) after both.
-2. **Meritor (Cummins) → Ozkaya (Turkey): no grace period applied.** Two shipments of axle parts from Meritor Germany arrived on 5 Jan 2024, 24 days after the US sanctioned Ozkaya.
+2. **Meritor (Cummins) → Ozkaya (Turkey): no grace period applied.** Two shipments of axle parts from Meritor Germany arrived on 5 Jan 2024, 24 days after the US sanctioned Ozkaya (SDN list: assets frozen, dealings banned).
 3. **Schaeffler → AvtoVAZ (Russian carmaker): inside the US grace period.** Three shipments in Oct–Nov 2023, after the US sanctioned AvtoVAZ (14 Sep) but before its grace period ended (13 Dec); the EU listed AvtoVAZ only in 2025.
 4. **Mahle → KAMAZ: possibly inside the EU grace period.** One shipment from its subsidiary Mahle Behr, 7 Apr 2022.
 
-**Early warnings: 7 suppliers (including ZF and Schaeffler) traded directly after the invasion (24 Feb 2022) with companies the US, EU or UK sanctioned only later.** Their 12 other trades all came before the sanction: not breaches, but a name check clears all seven. (Bans on specific goods were not checked.)
+**Early warnings: 7 suppliers (including ZF and Schaeffler) traded directly after the invasion (24 Feb 2022) with companies the US, EU or UK sanctioned only later.** Their 12 other trades all came before the sanction: not breaches, but checking these seven suppliers' names against sanctions lists finds nothing. (Bans on specific goods were not checked.)
 
 | Supplier | Sayari's shipments to/from (count) | Latest shipment | First trade restriction |
 |---|---|---|---|
