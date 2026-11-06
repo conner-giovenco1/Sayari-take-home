@@ -1,7 +1,7 @@
 # Hidden risk in an automotive supplier base: Sayari take-home
 
 **Scenario:** a carmaker's procurement and compliance team asks which of its 49 tier-1 suppliers (`data/list_3.tsv`) are linked, through ownership or trade, to parties on US, EU or UK sanctions lists, and how recently.
-**Report:** [`report/report.pdf`](report/report.pdf) (2 pages + appendix).
+**Report:** [`report/report.pdf`](report/report.pdf) (2 pages + appendix; also readable on GitHub as [`report/report.md`](report/report.md)).
 
 ## Run it
 Tested with Python 3.14 and the pinned versions in `requirements.txt`.
