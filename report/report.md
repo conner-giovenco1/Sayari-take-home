@@ -39,7 +39,7 @@ Dates are customs dates: dispatch if recorded, else arrival. US = OFAC SDN list;
 
 | Level | Suppliers | Why |
 |---|---|---|
-| **High** | **7** | Direct trade after 24 Feb 2022 with a now-listed party (the table above) |
+| **High** | **7** | Direct trade after 24 Feb 2022 with a now-listed party, mostly pre-listing: an early warning, not a breach |
 | **Medium** | **26** | **22** linked at two hops after the invasion (incl. Mahle, Cummins and Meritor); **1** traded directly only before it (JTEKT); **3** with only a forced-labor flag (Adient, ThyssenKrupp, Toyoda Gosei) |
 | **Low** | **16** | No rule triggered; for **5** the matched Sayari records hold little data, so "low" means "unknown," not "clean" |
 
@@ -48,7 +48,7 @@ In all, **30 of 49 suppliers** appear in the appendix. Most two-hop chains run t
 ## Approach
 1. **Match** each supplier to every Sayari record with its exact legal name (`/v1/resolution`, `/v1/entity_summary`).
 2. **Pull** risk flags, ownership and trade paths (not ended) within two hops to listed parties (`/v1/watchlist`), individual shipment dates for direct and subsidiary trades (`/v1/trade/search/shipments`), and direct shippers (`/v1/supply_chain/upstream`).
-3. **Score** with rules a compliance officer can audit: **high** = a current direct ownership link, or direct trade dated after 24 Feb 2022, with a party now on a US/EU/UK list; **medium** = an older or undated direct link, a two-hop link since then or of unknown date, or a high/critical export-control flag within 2 hops or forced-labor flag within 3; **low** = none of these.
+3. **Score** with my own triage rules (screening, not a legal finding), auditable by a compliance officer: **high** = a current direct ownership link, or direct trade dated after 24 Feb 2022, with a party now on a US/EU/UK list; **medium** = an older or undated direct link, a two-hop link since then or of unknown date, or a high/critical export-control flag within 2 hops or forced-labor flag within 3; **low** = none of these.
 4. **Check by hand** when the counterparty in each post-invasion direct or subsidiary trade was listed (40 trades; official US, EU and UK sources).
 
 ## Assumptions

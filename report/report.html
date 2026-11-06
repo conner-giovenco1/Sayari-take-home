@@ -139,7 +139,7 @@ tr { break-inside: avoid; }  /* a table may split between rows, never inside one
 <tr>
 <td><strong>High</strong></td>
 <td><strong>7</strong></td>
-<td>Direct trade after 24 Feb 2022 with a now-listed party (the table above)</td>
+<td>Direct trade after 24 Feb 2022 with a now-listed party, mostly pre-listing: an early warning, not a breach</td>
 </tr>
 <tr>
 <td><strong>Medium</strong></td>
@@ -158,7 +158,7 @@ tr { break-inside: avoid; }  /* a table may split between rows, never inside one
 <ol>
 <li><strong>Match</strong> each supplier to every Sayari record with its exact legal name (<code>/v1/resolution</code>, <code>/v1/entity_summary</code>).</li>
 <li><strong>Pull</strong> risk flags, ownership and trade paths (not ended) within two hops to listed parties (<code>/v1/watchlist</code>), individual shipment dates for direct and subsidiary trades (<code>/v1/trade/search/shipments</code>), and direct shippers (<code>/v1/supply_chain/upstream</code>).</li>
-<li><strong>Score</strong> with rules a compliance officer can audit: <strong>high</strong> = a current direct ownership link, or direct trade dated after 24 Feb 2022, with a party now on a US/EU/UK list; <strong>medium</strong> = an older or undated direct link, a two-hop link since then or of unknown date, or a high/critical export-control flag within 2 hops or forced-labor flag within 3; <strong>low</strong> = none of these.</li>
+<li><strong>Score</strong> with my own triage rules (screening, not a legal finding), auditable by a compliance officer: <strong>high</strong> = a current direct ownership link, or direct trade dated after 24 Feb 2022, with a party now on a US/EU/UK list; <strong>medium</strong> = an older or undated direct link, a two-hop link since then or of unknown date, or a high/critical export-control flag within 2 hops or forced-labor flag within 3; <strong>low</strong> = none of these.</li>
 <li><strong>Check by hand</strong> when the counterparty in each post-invasion direct or subsidiary trade was listed (40 trades; official US, EU and UK sources).</li>
 </ol>
 <h2>Assumptions</h2>
