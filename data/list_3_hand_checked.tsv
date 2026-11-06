@@ -1,0 +1,20 @@
+name	records	verdict	note
+ZF Friedrichshafen	0jJrkmZO892Ic6Um6CCxqQ	confirmed	Exact legal name; the record holds a ZF Schweinfurt site address, but its psa_id group includes ZF Friedrichshafen AG at Löwentaler Str. 20.
+Aptiv	aCl5voqbGDK4rNQaXIjvdg	confirmed	Aptiv PLC is incorporated in Jersey; the record's St Helier address is its registered office. Troy, MI is Aptiv Corporation, the US subsidiary.
+Yazaki	YQN3fygB2cKAQy3hU9jpSA|CX3012yTGIhgMxcZG6hgnA|3MiWgQn_c0gnO_zfvCkSvw	confirmed, records added	The trade record "YAZAKI CORPORATION HEAD OFFICE" lists both Yazaki head-office addresses (Mita 1-4-28, Konan 1-8-15). Added the two Japanese registry records for 矢崎総業株式会社 (corporate number 4010401029757), which Sayari keeps separate.
+Panasonic Automotive	TIrVRi2ASLt1HGjZGg4rxw	confirmed	Exact legal name; the record holds the company's Yokohama address instead of Osaka.
+BASF	YYduGnnDHeKJiCm9mn0Jew	confirmed	Exact legal name. Other "BASF SE" records (one with the HQ address misspelt "Carl-Busch-Strasse 38") are not grouped by Sayari; they are now pooled automatically as exact-name records.
+Yanfeng	NPll4sC0zEczebruZ-iS4w|W2YFHfhhljD8pimLnnk0tg	corrected	The search picked Yanfeng Automotive Interior Systems (Shanghai) Co., Ltd., a separate company registered in 2015 in Jiading. The list's company is 延锋汽车饰件系统有限公司 (Yanfeng Automotive Trim Systems Co., Ltd.), registered 1994 at 399 Liuzhou Road, the list's address; two records share its registration number 913101046072693215.
+ThyssenKrupp Automotive	wPC3qasn6QanH3SvlzWvzg	confirmed, closest	The list names a business unit, not a legal entity. thyssenkrupp Automotive Systems GmbH in Essen is the closest Sayari record.
+Gestamp	yK9-rzKE1j6QHKgT1UZpzw	confirmed	Exact legal name (Gestamp Automoción S.A.); the record holds a Gestamp address in Bizkaia (Lebario) instead of the Madrid head office.
+Cummins	URF1IKUG8YI0klqX9km8kQ	confirmed	Exact legal name, the richest record. Other "CUMMINS INC" records are pooled automatically as exact-name records.
+Benteler Automotive	gQG3TK50xA4H9xxgQSWhiA	confirmed	Exact legal name; its psa_id group includes the Paderborn head-office records.
+Brose	L81an7gxLpHbYATGDnD-kQ	confirmed	"BROSE FAHRZEUGTEILE SE & CO." is the legal name cut off before "KG"; the address is Max-Brose-Straße 1, Coburg. The Hallstadt/Bamberg records are a separate Brose legal entity and are not used.
+JTEKT	jAytS5--KS3lm3I2whrWtQ	confirmed	Exact legal name; the record holds JTEKT's Kariya (Aichi) address instead of the Nagoya office in the list.
+Flex-N-Gate	BAX_tQm9fXltkk3ZkhTAVA|RCJAJLpTwXLgogr0pqWPHg	confirmed, thin	Sayari groups Flex-N-Gate Corporation with Flex-n-Gate, LLC (same psa_id). Privately held; Sayari has little data on the parent.
+Hitachi Astemo	uHaWVxgDLhVKOvItAqxlug	confirmed	Exact legal name; the record holds the company's Tokyo (Otemachi) address instead of Hitachinaka.
+Draexlmaier	jhcxo7mFapiYuPJ15pzwFg	confirmed	"DRAEXLMAIER" is the ä spelt out; same Vilsbiburg address.
+Marelli	cnxkWBpPiyYSJAGIvFtW-Q	confirmed	Exact legal name; the record holds a Marelli address in Saitama instead of Yokohama.
+Samvardhana Motherson	OrR0rkX2CKFJc8NpiHWE-g	confirmed	Exact legal name; the record holds the company's Mumbai address instead of Noida.
+Webasto	CtFZJF_oFDr-J5H6o5VXcQ	corrected, closest	The search picked Webasto Mechatronics GmbH, a subsidiary in Wörth. Webasto SE (the holding) has no Sayari record; Webasto Roof & Components SE is the main operating company at the same head office (Kraillinger Str. 5, Stockdorf).
+GKN Automotive	pFxxi31oDDIX5TgC2bSy9g	confirmed	Exact legal name (a UK limited company); the record holds a Birmingham address instead of Welwyn Garden City.

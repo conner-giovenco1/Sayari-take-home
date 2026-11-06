@@ -1,0 +1,46 @@
+# Hidden risk in an automotive supplier base: Sayari take-home
+
+**Scenario:** a carmaker's procurement and compliance team asks which of its 49 tier-1 suppliers (`data/list_3.tsv`) are linked, through ownership or trade, to parties on US, EU or UK sanctions lists, and how recently.
+**Report:** [`report/report.pdf`](report/report.pdf) (2 pages + appendix).
+
+## Run it
+Tested with Python 3.14 and the pinned versions in `requirements.txt`.
+```bash
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+cp .env.example .env          # then add SAYARI_CLIENT_ID and SAYARI_CLIENT_SECRET
+.venv/bin/python src/resolve.py        # 1. match suppliers to Sayari records   -> output/matches.csv
+.venv/bin/python src/collect.py        # 2. pull risk data (~15 min first time) -> cache/api/
+.venv/bin/python src/score.py          # 3. score (first run pulls shipment dates, ~10 min) -> output/supplier_risk.csv, output/watchlist_links.csv
+.venv/bin/python src/figures.py        # 4. chart                              -> output/links_by_supplier.png
+.venv/bin/python src/build_report.py   # 5. report/report.md -> report.html, and report.pdf if Chrome/Chromium is installed (optional: report.pdf is included)
+```
+Every API response is cached in `cache/api/`, so after the first run the whole pipeline reruns in seconds with no API calls.
+
+## How it works
+| File | What it does |
+|---|---|
+| `src/sayari_api.py` | Minimal REST client: login, retries (429 via `Retry-After`; 5xx and timeouts with backoff), disk cache. (The `sayari` Python SDK 0.1.43 failed to parse some live responses, so it isn't used.) |
+| `src/resolve.py` | Matches each supplier to a Sayari record: searches by every known legal name (current and former) and the short name, with and without the address; an exact match needs the same name **and** legal form; among exact matches it takes the record Sayari knows most about, then the fullest record in its `psa_id` group, and keeps every other exact-legal-name record too (Sayari sometimes splits one company across records it doesn't group); confidence is judged on the record actually used. Matches below "high" were checked by hand: `data/list_3_hand_checked.tsv` holds the records to use, the verdict and why. |
+| `src/collect.py` | Per Sayari record (pooled when a supplier has several): `/v1/entity_summary` (risk flags), `/v1/watchlist` (current paths of ≤2 hops, one filtered query per chain pattern, read page by page), `/v1/supply_chain/upstream` (every direct shipper, in one large call). |
+| `src/score.py` | Keeps ownership, trade and subsidiary-trade chains to parties **on** a US/EU/UK list (sibling chains dropped, ended relationships dropped), and labels each supplier high / medium / low with rules written out in `exposure_level()`. Each chain is dated by the latest shipment of its least recent trade link. For every direct trade, subsidiary trade and two-hop chain not already post-invasion, the dates come from the individual shipments (`/v1/trade/search/shipments`, called via `collect.shipments`, cached); otherwise from the relationship summary, bounded by the records' source windows and acquisition dates (`date_basis` says which). A supplier with missing data (a failed call, or no Sayari match) is labelled `incomplete`, never `low`; one Sayari knows little about is still scored and flagged in `thin_data`. |
+| `src/figures.py`, `src/build_report.py` | The appendix chart and the PDF. |
+| `data/list_3_legal_names.tsv` | Public legal names for the 49 suppliers (the list only had short names). |
+
+## Key assumptions
+- The client operates in the US, EU and UK, so only those countries' sanctions and export-control lists count (`RELEVANT_LISTS` in `score.py`).
+- A chain must keep one direction (up or down the ownership chain, toward suppliers, or toward customers) or go down to a subsidiary and then trade. Shared investors, suppliers or customers don't count.
+- `data/list_3_legal_names.tsv` is a best-effort list of public legal names (several per supplier where the name changed, e.g. Faurecia/Forvia); in a real engagement it comes from the client's vendor master.
+- Only Sayari's high/critical flags count; "elevated" flags are mostly product/country-level.
+- 24 Feb 2022 separates current exposure from history. Only trade links carry a date (each dated by its last shipment); a chain is dated by its least recent trade link, and an ownership stake that Sayari hasn't marked as ended is current. Listing dates for the other counterparties are a next step.
+- Sayari tags parties by the lists they are on **today**. Listing dates for all 40 post-invasion trades (15 direct, 25 by suppliers' subsidiaries) were checked by hand against official sources (`data/designation_dates.tsv`). Four sets of shipments came after a restriction: ZF → KAMAZ (4 after the EU's 16 Mar 2022 transaction ban, the last on 16 Jun 2022 after the EU asset freeze), Mahle Behr → KAMAZ (7 Apr 2022, possibly within the wind-down), Meritor Germany → Ozkaya (5 Jan 2024, after the US listing) and Schaeffler → AvtoVAZ (Oct–Nov 2023, after the US listing, during the US wind-down period). Sayari tags Robert Bosch Samara as US-listed, but no current listing was found.
+- A party counts as listed only via Sayari seed flags (on a list), not network flags like `usa_bis_50_percent_rule` (owned by a listed party).
+
+## What I learned about the API
+- Resolution's top "strong" match is sometimes a subsidiary or namesake (Bosch → Bosch Vietnam, Yanfeng → a woven-bag packaging maker). Duplicates often share a `psa_id`, but not always ("CUMMINS INC": 402 data points; "CUMMINS INC.": 1.8M).
+- Sayari's `countries` field lists every country a company trades with, so it can't identify where a company is based.
+- One company can be split across several records that Sayari doesn't group: BASF SE has eight records, and one of them (head-office address misspelt "Carl-Busch-Strasse") holds a 2023 shipment that the main record doesn't. Reading every exact-legal-name record closes that gap.
+- Unfiltered, `/v1/watchlist` returns 50 paths per page, mostly 3–4-hop chains through generic `linked_to` links, so close links can be cut off. Pass `relationships`, `max_depth` and `exclude_former_relationships`, and page with `offset` until `next` is false. It also returns only one path per listed party, so `collect.py` asks once per valid chain pattern (owners, holdings, buyers, suppliers, subsidiaries' sales, subsidiaries' purchases). It can't fix the ORDER of relationship types within a path, so mixing both trade directions in one query let ~1,000 sibling paths ("its supplier's customer") take listed parties' only slot; splitting the subsidiary query by direction found two more suppliers with subsidiary trades. A plain trade path can still take a party's slot in those queries, so subsidiary-trade links are a minimum.
+- **Trade dates:** every record on a trade relationship carries the same `from_date`, the relationship's *first* shipment, and the relationship's `trade_metadata.dates` is only a partial list (for ZF → KAMAZ it stops at 28 Feb 2022; the shipments run to 16 Jun 2022). `POST /v1/trade/search/shipments` with `supplier_id` and `buyer_id` returns every shipment with its own arrival/departure date, HS code, description and weight, paged with `offset`: that is the source to trust for dates.
+- Watchlist targets carry per-list tags (`sanctioned_usa_ofac_sdn`, `sanctioned_eu_*`, `sanctioned_gbr_fcdo`, ...) and each link carries dates, which made the jurisdiction and date filters easy.
+- Deep supply-chain traversals time out on very large suppliers; use depth 1. Schaeffler's main record returned 4,074 paths with `explored_count` 5,003, the only value above 5,000; if Sayari caps traversal near there, its shipper list is a floor (worth asking Sayari). `/v1/supply_chain/upstream` also stops at `limit` paths without saying so (no `next` flag; `explored_count` hints at more), and each path is one shipper and one product: at `limit=50` Bosch showed ~32 of its ~370 shippers. It also ignores `offset`, so `collect.py` asks for everything in one call (`limit=10000`; the largest supplier needs ~4,100 paths) and marks a full response incomplete.
+- Some look-alike records use Cyrillic letters in Latin names (e.g. "SCHAЕFFLЕR"), worth flagging to the data team.

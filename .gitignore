@@ -1,0 +1,10 @@
+.env
+.venv/
+cache/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Other two exercise lists: unused by the pipeline; kept out of the public repo
+data/list_1.tsv
+data/list_2.tsv

@@ -1,0 +1,50 @@
+supplier,sayari_record,match_confidence,records_used,sanctioned,risk_flags,sanctions_hops,export_controls_hops,forced_labor_hops,political_or_regulatory_hops,direct_links_since_invasion,direct_links_before_invasion,direct_links_undated,two_hop_links_since_invasion,two_hop_links_undated,direct_suppliers,suppliers_labor_flag_high,suppliers_labor_flag_elevated_only,supplier_ship_from,exposure,thin_data,suppliers_cut_off
+Bosch,ROBERT BOSCH GMBH,high,3,False,34,,5.0,2.0,1.0,2,1,0,29,1,368,1,145,ARG AUT BEL BGR BRA CHE CHL CHN COL CZE DEU DNK DZA ESP FIN FRA GBR GHA HKG HRV HUN IDN IND ITA JPN LKA MEX MLT MYS NLD PAN PHL POL ROU RUS SGP SRB SVN SWE THA TUN TUR TWN UKR VNM ZAF,high,False,False
+Denso,DENSO CORPORATION,high,11,False,27,,,4.0,2.0,0,0,0,1,0,26,0,14,DEU ESP GBR IDN IND ITA MEX MYS NLD PHL PRT THA USA VNM,medium,False,False
+ZF Friedrichshafen,ZF FRIEDRICHSHAFEN AG,checked by hand: confirmed,3,False,31,,,2.0,1.0,4,3,0,30,0,292,0,85,AUT BHS BRA CHN COL DEU ESP FRA HUN IDN IND ITA JPN KAZ KOR MEX MYS PHL RUS SAU SVK SWE THA TUR UKR VNM,high,False,False
+Magna International,MAGNA INTERNATIONAL INC,high,16,False,14,,,4.0,0.0,0,0,0,0,0,26,0,1,CHN IND KOR MEX THA VNM,low,False,False
+Aisin,AISIN CORPORATION,high,15,False,20,,,4.0,3.0,0,0,0,1,0,24,0,9,BEL BHS COL IDN IND MEX MYS NLD SWE THA TUR USA VNM,medium,False,False
+Continental,CONTINENTAL AG,high,1,False,8,,,,0.0,0,0,0,12,0,0,0,0,,medium,False,False
+Hyundai Mobis,HYUNDAI MOBIS,high,4,False,41,3.0,1.0,3.0,1.0,0,0,0,7,0,110,0,56,CAN CHN CRI DEU IDN IND ITA JPN KOR MEX MYS PAK PHL POL RUS SVN TUR VNM,medium,False,False
+Lear,LEAR CORPORATION,high,11,False,31,,,3.0,1.0,0,0,0,4,0,140,1,46,BEL BHS BRA CAN CHN DEU FRA GBR IND ITA KOR LKA MEX NLD PAN PRT SGP THA TWN USA VNM,medium,False,False
+Faurecia,Forvia SE,high,8,False,11,,,,0.0,0,0,0,0,0,0,0,0,,low,False,False
+Valeo,Valeo S.A.,high,10,False,10,,,,0.0,0,0,0,1,0,0,0,0,,medium,False,False
+Aptiv,Aptiv PLC,checked by hand: confirmed,5,False,10,,,,1.0,0,0,0,2,0,0,0,0,,medium,False,False
+Yazaki,YAZAKI CORPORATION HEAD OFFICE,"checked by hand: confirmed, records added",3,False,5,,,,,0,0,0,0,0,1,0,1,IDN,low,False,False
+Panasonic Automotive,PANASONIC AUTOMOTIVE SYSTEMS CO LTD,checked by hand: confirmed,1,False,9,,,4.0,,0,0,0,2,0,21,0,12,IDN IND MYS THA VNM,medium,False,False
+Sumitomo Electric,"SUMITOMO ELECTRIC INDUSTRIES, LTD.",high,16,False,30,,,2.0,1.0,0,0,0,6,0,94,1,44,CHN DEU GBR IDN IND ITA KOR LKA MEX MYS NOR PHL SWE THA TUR VNM,medium,False,False
+BASF,BASF SE,checked by hand: confirmed,8,False,31,2.0,2.0,,0.0,1,0,0,22,0,15,0,6,BRA CHN KOR MEX SGP,high,False,False
+Mahle,MAHLE GMBH,high,8,False,15,,,,0.0,0,0,0,3,0,3,0,0,IND MEX,medium,False,False
+Schaeffler,SCHAEFFLER TECHNOLOGIES AG & CO. KG,high,4,False,38,,5.0,3.0,0.0,4,4,0,20,0,923,0,505,AUS AUT BEL CAN CHE CHN CRI CZE DEU DNK ESP FIN FRA GBR HKG HUN IDN IND IRL ISR ITA JPN KAZ KOR LUX MAC MEX MYS NLD PHL POL PRT ROU SGP SVK SWE THA TUR TWN USA VGB VNM,high,False,False
+Yanfeng,延锋汽车饰件系统有限公司,checked by hand: corrected,2,False,8,,,,2.0,0,0,0,0,0,0,0,0,,low,True,False
+Adient,Adient plc,high,2,False,13,,,3.0,1.0,0,0,0,0,0,11,0,1,BEL DEU FRA MAR MEX,medium,False,False
+ThyssenKrupp Automotive,THYSSENKRUPP AUTOMOTIVE SYSTEMS GMBH,"checked by hand: confirmed, closest",1,False,9,,,3.0,,0,0,0,0,0,14,0,3,CHN IND MEX TUR UKR,medium,False,False
+Gestamp,Gestamp Automocion S.A.,checked by hand: confirmed,1,False,3,,,,,0,0,0,0,0,0,0,0,,low,True,False
+Tenneco,TENNECO INC,high,3,False,7,,,,1.0,0,0,0,0,0,1,0,0,MEX,low,False,False
+Cummins,CUMMINS INC.,checked by hand: confirmed,6,False,35,,,3.0,1.0,0,0,0,16,0,783,1,168,ARE ARG AUS AUT BEL BGR BHS BLR BOL BRA BWA CAN CHL CHN COL CRI CZE DEU ECU ESP FRA GBR GHA GTM HKG HUN IDN IND ITA JAM JPN KOR LKA LVA MAR MEX MYS NAM NLD OMN PAN PER POL PRK ROU RUS SGP SVK SWE THA TUR TWN USA VEN VNM,medium,False,False
+Plastic Omnium,COMPAGNIE PLASTIC OMNIUM,high,1,False,4,,,,,0,0,0,0,0,1,0,0,MEX,low,False,False
+Benteler Automotive,BENTELER AUTOMOBILTECHNIK GMBH,checked by hand: confirmed,4,False,6,,,4.0,,0,0,0,2,0,22,0,4,BEL CZE DEU IND MEX RUS TUR UKR,medium,False,False
+Brose,BROSE FAHRZEUGTEILE SE & CO.,checked by hand: confirmed,1,False,17,,,4.0,,2,0,0,0,0,35,0,12,IND JPN MEX MYS PHL RUS TUR VNM,high,False,False
+JTEKT,JTEKT CORPORATION,checked by hand: confirmed,8,False,17,,,,1.0,0,1,0,0,0,11,0,1,CZE FRA GBR IDN IND MEX,medium,False,False
+Flex-N-Gate,"Flex-n-Gate, LLC","checked by hand: confirmed, thin",2,False,5,,,,,0,0,0,0,0,0,0,0,,low,True,False
+Nemak,Nemak S.A.B. de C.V.,high,2,False,8,,,,,0,0,0,0,0,13,0,2,CHN DEU ESP JPN NLD USA,low,False,False
+Infineon Technologies,INFINEON TECHNOLOGIES AG,high,1,False,16,,,,1.0,1,2,0,13,0,0,0,0,,high,False,False
+Dana,DANA INCORPORATED,high,4,False,21,,,3.0,1.0,0,0,0,3,0,80,0,11,AUT BEL CHN COL DEU ESP GBR GRC HUN IND ITA KOR MEX NLD SGP THA TUR TWN VNM,medium,False,False
+Hyundai Wia,HYUNDAI WIA CORPORATION,high,3,False,27,,1.0,4.0,1.0,1,0,0,13,0,31,0,13,CAN CHN IDN IND MEX MYS RUS VNM,high,False,False
+NTN,NTN CORPORATION,high,20,False,5,,,,,0,0,0,0,0,3,0,0,IDN IND VNM,low,False,False
+Hitachi Astemo,"HITACHI ASTEMO, LTD.",checked by hand: confirmed,2,False,18,,,3.0,,0,0,0,6,0,75,0,19,CAN IDN IND JPN KOR MEX MYS PAK PHL THA TUR UKR USA VNM,medium,False,False
+Draexlmaier,LISA DRAEXLMAIER GMBH,checked by hand: confirmed,9,False,8,,,,,0,0,0,0,0,5,0,4,IND MEX MYS VNM,low,False,False
+Marelli,MARELLI CORPORATION,checked by hand: confirmed,14,False,13,,,3.0,3.0,0,0,0,3,0,26,0,9,COL GBR IDN IND JPN KOR MEX MYS RUS THA,medium,False,False
+Grupo Antolin,Grupo Antolin Irausa SA,high,1,False,4,,,,,0,0,0,0,0,2,0,0,IND,low,False,False
+BorgWarner,BORGWARNER INC,high,2,False,9,,,,0.0,0,0,0,7,0,0,0,0,,medium,False,False
+HELLA,HELLA GMBH & CO. KGAA,high,12,False,28,,,2.0,1.0,0,0,0,4,0,42,0,29,CHN DEU FRA IDN IND MEX MYS PHL ROU RUS TUR VNM,medium,False,False
+Samvardhana Motherson,SAMVARDHANA MOTHERSON INTERNATIONAL LIMITED,checked by hand: confirmed,4,False,31,,1.0,3.0,1.0,0,0,0,16,0,1811,1,630,AGO ALB ARE ARG AUS AUT BEL BFA BGR BIH BRA CAN CHE CHN COL CZE DEU DNK EGY ESP EST ETH FIN FRA GAB GBR HKG HUN IDN IND IRL ITA JPN KOR LKA LTU LVA MAR MEX MMR MNE MRT MYS NFK NLD PHL POL PRT QAT ROU SAU SGP SRB SVK SVN SWE THA TUN TUR TWN USA VNM ZAF,medium,False,False
+Webasto,WEBASTO ROOF & COMPONENTS SE,"checked by hand: corrected, closest",1,False,15,,,4.0,2.0,0,0,0,3,0,18,0,8,DEU IND MEX TUR UKR,medium,False,False
+Toyoda Gosei,"TOYODA GOSEI CO.,LTD",high,1,False,18,,,3.0,1.0,0,0,0,0,0,32,0,12,CHN IDN IND JPN KOR MEX MYS PAK THA VNM,medium,False,False
+DuPont,"DuPont de Nemours, Inc.",high,1,False,13,,,,1.0,0,0,0,0,0,0,0,0,,low,False,False
+GKN Automotive,GKN AUTOMOTIVE LIMITED,checked by hand: confirmed,4,False,5,,,,3.0,0,0,0,0,0,0,0,0,,low,True,False
+Eberspächer,Eberspächer Gruppe GmbH & Co. KG,high,1,False,3,,,,,0,0,0,0,0,0,0,0,,low,True,False
+Visteon,VISTEON CORP,high,3,False,27,,5.0,4.0,0.0,0,0,0,4,0,25,0,18,CHN ESP GBR HKG IDN IND KOR MEX MYS TWN VNM,medium,False,False
+Meritor,MERITOR INC,high,3,False,21,,,3.0,,0,0,0,6,0,157,0,33,AUS BEL BHS BRA CAN CHN COL DEU ESP FRA GBR HKG HUN IDN IND ITA JPN KOR LKA MAR MEX MYS NLD OMN PAN POL SGP SWE TUR TWN USA,medium,False,False
+NSK,NSK LTD.,high,18,False,6,,,,1.0,0,0,0,0,0,2,0,0,IDN,low,False,False
+American Axle & Manufacturing,AMERICAN AXLE & MANUFACTURING INC,high,9,False,32,,,3.0,0.0,0,0,0,5,0,40,0,6,BEL BRA CHN DEU ESP IND KOR LKA MEX NLD,medium,False,False

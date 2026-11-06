@@ -1,0 +1,184 @@
+<!doctype html><html><head><meta charset='utf-8'><style>
+@page { size: Letter; margin: 0.55in 0.6in; }
+body { font-family: -apple-system, Helvetica, Arial, sans-serif; font-size: 9.6pt; line-height: 1.34; color: #222; }
+h1 { font-size: 16pt; margin: 0 0 2px; color: #1f4e79; }
+h2 { font-size: 11pt; margin: 12px 0 4px; color: #1f4e79; border-bottom: 1px solid #d5d8dc; padding-bottom: 2px; }
+p, li { margin: 3px 0; }
+ul, ol { padding-left: 18px; margin: 3px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 8.8pt; margin: 6px 0; }
+th, td { border-bottom: 1px solid #e5e7e9; padding: 2px 5px; text-align: left; vertical-align: top; }
+th { background: #f4f6f7; }
+img { display: block; margin: 4px auto; max-width: 92%; }
+code { font-size: 8.5pt; background: #f4f6f7; padding: 0 2px; }
+td code { font-size: 7pt; }
+table:first-of-type td:nth-child(3) { white-space: nowrap; }  /* headline table: keep trade dates on one line */
+table:first-of-type td:nth-child(1), table:first-of-type td:nth-child(4) { white-space: nowrap; }  /* supplier, listing */
+h2.appendix { page-break-before: always; }
+tr { break-inside: avoid; }  /* a table may split between rows, never inside one */
+</style></head><body><h1>Hidden risk in an automotive supplier base</h1>
+<p><strong>A proof of concept on Sayari's API for a carmaker's procurement and compliance team</strong> · Conner Giovenco · November 2026</p>
+<h2>The client's question</h2>
+<p>"We buy from 49 tier-1 suppliers. None of them is sanctioned. Is any of them still doing business with parties that our US, EU or UK sanctions obligations cover, through who owns them, who they own, or who they trade with?"</p>
+<h2>What Sayari shows</h2>
+<p><strong>Short answer: four sets of shipments need checking first, all by German companies.</strong> Sayari's shipment records show:</p>
+<ol>
+<li><strong>ZF → KAMAZ:</strong> 3 gearbox shipments and a switch arrived after the EU banned transactions with KAMAZ (16 Mar 2022). The last, 16 Jun 2022 (2.8 t of gearboxes), came after the wind-down for older contracts ended (15 May) and after the EU froze KAMAZ's assets (3 Jun).</li>
+<li><strong>Mahle → KAMAZ:</strong> a shipment from its subsidiary Mahle Behr arrived on 7 Apr 2022, three weeks after the ban; possibly within the wind-down.</li>
+<li><strong>Cummins/Meritor → Ozkaya (Turkey):</strong> two shipments of axle parts from Meritor Germany arrived on 5 Jan 2024, 24 days after the US sanctioned Ozkaya.</li>
+<li><strong>Schaeffler → AvtoVAZ:</strong> 3 shipments in Oct–Nov 2023, after the US sanctioned AvtoVAZ (14 Sep 2023), during the US wind-down period (to 13 Dec 2023); the EU listed AvtoVAZ only in 2025.</li>
+</ol>
+<p><strong>Beyond these, 7 of 49 suppliers traded directly after Russia's full-scale invasion (24 Feb 2022) with companies the US, EU or UK restricted later</strong>: 12 more trades, all before the restriction. These are <strong>early warnings</strong>; a name screen clears all seven. (Goods-based export bans are out of scope.)</p>
+<table>
+<thead>
+<tr>
+<th>Supplier</th>
+<th>Sayari's shipments to/from (count)</th>
+<th>Latest shipment</th>
+<th>First trade restriction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ZF</strong></td>
+<td><strong>to KAMAZ</strong> (147), Russian truck maker</td>
+<td><strong>16 Jun 2022</strong></td>
+<td><strong>EU ban 16 Mar 2022: 4 after</strong></td>
+</tr>
+<tr>
+<td></td>
+<td><strong>to Metrovagonmash</strong> (94), Russian rail-car maker</td>
+<td>2 Mar 2022</td>
+<td>US 19 May 2023</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>to AvtoVAZ</strong> (35), Russian carmaker</td>
+<td>8 May 2022</td>
+<td>US 14 Sep 2023</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>to/from ZF Kama</strong> (5,000+), ZF–KAMAZ joint venture, Russia</td>
+<td>13 Dec 2022</td>
+<td>EU asset freeze 12 Oct 2026</td>
+</tr>
+<tr>
+<td><strong>Schaeffler</strong></td>
+<td><strong>to AvtoVAZ</strong> (313)</td>
+<td><strong>7 Nov 2023</strong></td>
+<td><strong>US 14 Sep 2023: 3 after</strong></td>
+</tr>
+<tr>
+<td></td>
+<td><strong>to UAZ</strong> (1), Russian vehicle maker</td>
+<td>30 Mar 2022</td>
+<td>EU asset freeze 3 Jun 2022</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>to Ulyanovsk Machine Tool Plant</strong> (14), Russia¹</td>
+<td>10 Mar 2022</td>
+<td>EU asset freeze 18 Jul 2025</td>
+</tr>
+<tr>
+<td></td>
+<td>Vitesco Mexico <strong>from Yangzhou Yangjie</strong> (2), China²</td>
+<td>18 Jun 2024</td>
+<td>EU asset freeze 23 Apr 2026</td>
+</tr>
+<tr>
+<td><strong>Bosch</strong></td>
+<td><strong>to ZapchastTrade</strong> (967), Kazakhstan</td>
+<td>3 Sep 2024</td>
+<td>UK 7 Nov 2024</td>
+</tr>
+<tr>
+<td><strong>Brose</strong></td>
+<td><strong>to NAMI</strong> (1), Russian state auto institute</td>
+<td>20 Jan 2023</td>
+<td>US 23 Feb 2024</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>to Aurus</strong> (1), Russian vehicle maker</td>
+<td>20 Apr 2022</td>
+<td>US 23 Feb 2024</td>
+</tr>
+<tr>
+<td><strong>BASF</strong></td>
+<td>surfactants <strong>to İlmor Kimya</strong> (1), Turkey</td>
+<td>28 Oct 2023</td>
+<td>EU export restriction 20 Jul 2025</td>
+</tr>
+<tr>
+<td><strong>Infineon</strong></td>
+<td><strong>to Compel</strong> (63), Russian electronics distributor</td>
+<td>1 Mar 2022</td>
+<td>US 20 Jul 2023</td>
+</tr>
+<tr>
+<td><strong>Hyundai Wia</strong></td>
+<td><strong>to ATM Grupp</strong> (25), Russian machine-tool firm</td>
+<td>2 Jul 2022</td>
+<td>US 23 Feb 2024</td>
+</tr>
+</tbody>
+</table>
+<p>Dates are customs dates: dispatch if recorded, else arrival. US = OFAC SDN list; UK = UK sanctions list. ¹ Matched by name. ² Vitesco joined Schaeffler in Oct 2024. Sayari also tags Robert Bosch Samara (Bosch traded with it to Feb 2023) as US-listed; no listing found.</p>
+<p><strong>Next steps for the compliance team:</strong> (1) ask ZF and Mahle for the contract dates and any authorisation behind their KAMAZ shipments, Cummins/Meritor about Ozkaya, and Schaeffler about any US link to its late-2023 AvtoVAZ shipments; (2) check whether the other relationships continued after each listing. Dates, sources and Sayari IDs for all 40 trades checked: <code>data/designation_dates.tsv</code>.</p>
+<p><strong>All 49 suppliers at a glance</strong> (the four cases above come first, whatever their level). A <em>hop</em> = one step (owner, subsidiary, buyer or seller); <em>listed</em> = on a US, EU or UK list today.</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Suppliers</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>High</strong></td>
+<td><strong>7</strong></td>
+<td>Direct trade after 24 Feb 2022 with a now-listed party (the table above)</td>
+</tr>
+<tr>
+<td><strong>Medium</strong></td>
+<td><strong>26</strong></td>
+<td><strong>22</strong> linked at two hops after the invasion (incl. Mahle, Cummins and Meritor); <strong>1</strong> traded directly only before it (JTEKT); <strong>3</strong> with only a forced-labor flag (Adient, ThyssenKrupp, Toyoda Gosei)</td>
+</tr>
+<tr>
+<td><strong>Low</strong></td>
+<td><strong>16</strong></td>
+<td>No rule triggered; for <strong>5</strong> the matched Sayari records hold little data, so "low" means "unknown," not "clean"</td>
+</tr>
+</tbody>
+</table>
+<p>In all, <strong>30 of 49 suppliers</strong> appear in the appendix. Most two-hop chains run through another company's trade (weak evidence); stronger ones run through <strong>the supplier's own subsidiary</strong>: at least 10 suppliers have one that traded with a now-listed party after the invasion (25 trades: 20 before the listing; Mahle's and Meritor's after; 2 to YaMZ, whose parent GAZ has been US-sanctioned since 2018; 1 probable false match). One ownership chain Sayari shows as current also counts: BASF → Wintershall Dea → Achim Development.</p>
+<h2>Approach</h2>
+<ol>
+<li><strong>Match</strong> each supplier to every Sayari record with its exact legal name (<code>/v1/resolution</code>, <code>/v1/entity_summary</code>).</li>
+<li><strong>Pull</strong> risk flags, ownership and trade paths (not ended) within two hops to listed parties (<code>/v1/watchlist</code>), individual shipment dates for direct and subsidiary trades (<code>/v1/trade/search/shipments</code>), and direct shippers (<code>/v1/supply_chain/upstream</code>).</li>
+<li><strong>Score</strong> with rules a compliance officer can audit: <strong>high</strong> = a current direct ownership link, or direct trade dated after 24 Feb 2022, with a party now on a US/EU/UK list; <strong>medium</strong> = an older or undated direct link, a two-hop link since then or of unknown date, or a high/critical export-control flag within 2 hops or forced-labor flag within 3; <strong>low</strong> = none of these.</li>
+<li><strong>Check by hand</strong> when the counterparty in each post-invasion direct or subsidiary trade was listed (40 trades; official US, EU and UK sources).</li>
+</ol>
+<h2>Assumptions</h2>
+<ul>
+<li>Only <strong>US, EU and UK</strong> sanctions and export-control lists count (the client operates there). A link must run <strong>one way</strong> (up or down ownership, or along trade) or go <strong>down to a subsidiary and then trade</strong>; shared investors, suppliers or customers don't count. A chain is as recent as its <strong>least recent trade link</strong> (each link dated by its latest shipment); only <strong>high/critical</strong> flags count. Full rules: README.</li>
+</ul>
+<h2>Challenges and how they were handled</h2>
+<ul>
+<li><strong>Matching:</strong> Sayari's top "strong" match was sometimes the wrong company (Bosch → Bosch Vietnam). Legal names plus a legal-form check fixed it; the 19 weaker matches were <strong>checked by hand</strong> (2 corrected; see README).</li>
+<li><strong>The first scoring overstated risk:</strong> 14 "high" suppliers, cut to 3 by three compliance questions: <em>Is that really their owner?</em> (shared investors removed); <em>Is that list binding on us?</em> (Chinese/Russian counter-sanctions removed); <em>When did it happen?</em> (trade before 24 Feb 2022 separated).</li>
+<li><strong>Dates changed the headline three times.</strong> One of BASF's split records held the İlmor shipment (4 high). Dating trades by their latest shipment, not the first, added ZF, Infineon and Hyundai Wia (7). Then the shipment search, which dates every shipment, showed what the summary missed: ZF's KAMAZ deliveries ran to June 2022, Schaeffler's AvtoVAZ ones to Nov 2023, Meritor's Ozkaya ones to Jan 2024.</li>
+</ul>
+<h2>Why this needs Sayari</h2>
+<p>A name screen of these 49 suppliers finds nothing. Sayari's shipment-level trade data, ownership graph and per-list tags found ZF's gearboxes reaching KAMAZ after the EU ban, post-restriction shipments by two subsidiaries (it takes ownership to reach them), and 7 suppliers trading with companies before regulators acted.</p>
+<h2>What I'd do next</h2>
+<ul>
+<li><strong>Score on listing dates, not the invasion date</strong> (done by hand here for 40 trades), <strong>monitor</strong> with Sayari's alerts, and <strong>confirm the matches</strong> with the client's vendor master.</li>
+<li><strong>Go deeper:</strong> tier-2/3 suppliers, negative news, labor risk (5 suppliers have a shipper flagged for forced labor).</li>
+</ul>
+<h2 class="appendix">Appendix: the 30 suppliers with a direct or recent link</h2>
+
+<p><img alt="Linked parties per supplier" src="../output/links_by_supplier.png" /></p>
+<p>A long grey bar (many two-hop links) is weaker evidence than one red segment. One of Bosch's two post-invasion direct links (red) is Robert Bosch Samara (Sayari's US tag; no listing found). Full detail per supplier: <code>output/supplier_risk.csv</code>. Every linked party with its closest path, date (and whether the date is observed or a bound), lists and Sayari ID: <code>output/watchlist_links.csv</code>. Match evidence: <code>output/matches.csv</code>.</p></body></html>
