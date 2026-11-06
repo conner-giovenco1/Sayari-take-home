@@ -6,6 +6,9 @@ For each supplier we answer four plain questions:
   3. Who, concretely?               -> watchlisted companies reachable through ownership or trade links (<= 2 hops)
   4. What about its own suppliers?  -> direct shipping suppliers that carry forced-labor flags
 
+Trade links that decide a level are re-dated from Sayari's shipment search (refine_with_shipments), because the
+relationship summary under-reports later shipments.
+
 Generic `linked_to` links are ignored: in testing they connected Spotify to General Dynamics.
 
 Run from take_home_code/:  .venv/bin/python src/score.py
@@ -70,7 +73,9 @@ def theme_of(flag_id):
 
 
 def hops(flag):
-    """Distance of a flag: 0 = the company itself; n = n hops away. Booleans on network/PSA flags count as 1."""
+    """How many hops away a flag's risky party is: 0 = the company itself, n = n hops away.
+
+    Booleans on network/PSA flags count as 1."""
     value = flag.get("value")
     if isinstance(value, bool):
         return 1
@@ -99,16 +104,19 @@ INVASION = "2022-02-24"  # broad Russia sanctions start here; older trade is his
 
 
 def is_listed(target):
-    """The listings that put a party on a US/EU/UK list. Seed flags only: network flags such as
-    usa_bis_50_percent_rule mean 'owned by a listed party', not 'listed'."""
+    """The US/EU/UK lists a party is on itself.
+
+    Seed flags only: network flags such as usa_bis_50_percent_rule mean 'owned by a listed party', not 'listed'."""
     catalogue = risk_factors()
     return sorted(k for k in (target.get("risk") or {})
                   if k.startswith(RELEVANT_LISTS) and k in catalogue.index and catalogue.loc[k, "risk_type"] == "seed")
 
 
 def own_relationship(step):
-    """The relationship data for the step's own type. A step can also carry other types between the same two
-    companies (a mirrored receives_from, a shareholding), which must not leak into its dates or counts."""
+    """The relationship data for the step's own type only.
+
+    A step can also carry other types between the same two companies (a mirrored receives_from, a shareholding),
+    which must not leak into its dates or counts."""
     return step["relationships"].get(step["field"]) or {}
 
 
@@ -126,8 +134,9 @@ SOURCE_WINDOWS = {}  # Sayari source id -> (first day it covers, last day or Non
 
 
 def learn_sources(data):
-    """Record the date window of every Sayari source whose label appears anywhere in `data` (profiles and watchlist
-    entities carry a source_count with labels). A record's source bounds its shipment date."""
+    """Record the date window of every Sayari source whose label appears anywhere in `data`.
+
+    Profiles and watchlist entities carry a source_count with labels. A record's source bounds its shipment date."""
     if isinstance(data, dict):
         for source_id, info in (data.get("source_count") or {}).items():
             match = COVERAGE.search((info or {}).get("label", "")) if isinstance(info, dict) else None
@@ -143,8 +152,10 @@ def learn_sources(data):
 
 
 def latest_bounds(values):
-    """(earliest, latest) the most recent shipment can be, from each record's source window and acquisition date.
-    Sayari returns at most 1,000 records per link, so with 1,000 the unseen ones leave the upper bound unknown."""
+    """The (earliest, latest) date the most recent shipment can be, when no shipment date says so directly.
+
+    Worked out from each record's source window and acquisition date. Sayari returns at most 1,000 records per link,
+    so with 1,000 the unseen ones leave the upper bound unknown."""
     lower, uppers = None, []
     for v in values:
         start, end = SOURCE_WINDOWS.get((v.get("record") or "").split("/")[0], (None, None))
@@ -157,13 +168,16 @@ def latest_bounds(values):
 
 
 def step_dates(step):
-    """(first shipment, latest shipment, basis) on one trade link; basis says whether the latest date is an observed
-    "shipment", or a bound: "at least" / "at most". Each record's from_date is the relationship's FIRST
-    shipment, copied onto every record; trade_metadata.dates adds some later dates but is only a partial list (the
-    shipment search is the reliable source; see refine_with_shipments). With several records and no trade_metadata, the latest shipment is bounded by the records' sources
-    ("... (January 2023 - Present)") and acquisition dates: if it must be after the invasion, the lower bound is used;
-    if it must be before, the upper bound; otherwise it is unknown (None). A record from a source that starts later
-    than every listed date (e.g. a 2023+ dataset) also lifts the latest date to that source's start."""
+    """A trade link's first and latest shipment dates, from Sayari's relationship summary.
+
+    Returns (first shipment, latest shipment, basis); basis says whether the latest date is an observed "shipment",
+    or a bound: "at least" / "at most". Each record's from_date is the relationship's FIRST shipment, copied onto
+    every record; trade_metadata.dates adds some later dates but is only a partial list (the shipment search is the
+    reliable source; see refine_with_shipments). With several records and no trade_metadata, the latest shipment is
+    bounded by the records' sources ("... (January 2023 - Present)") and acquisition dates: if it must be after the
+    invasion, the lower bound is used; if it must be before, the upper bound; otherwise it is unknown (None). A
+    record from a source that starts later than every listed date (e.g. a 2023+ dataset) also lifts the latest date
+    to that source's start."""
     rel = own_relationship(step)
     meta = [d[:10] for d in ((rel.get("trade_metadata") or {}).get("dates") or [])]
     values = rel.get("values", [])
@@ -189,8 +203,10 @@ ONGOING = "ongoing"  # an ownership chain Sayari doesn't mark as ended
 
 
 def trade_evidence(steps):
-    """How much trade data backs the chain's trade link(s): Sayari's record count, and the first shipment date when the
-    chain has one trade link (a direct trade, or a subsidiary's trade; the latest shipment is chain_date)."""
+    """How much trade data backs the chain's trade link(s).
+
+    Returns Sayari's record count, and the first shipment date when the chain has one trade link (a direct trade, or
+    a subsidiary's trade; the latest shipment is chain_date)."""
     trade_steps = [s for s in steps if s["field"] in TRADE]
     # Sayari's count can be lower than the records it returns, and the records stop at 1,000: take the larger.
     records = sum(max((own_relationship(s).get("trade_metadata") or {}).get("count") or 0,
@@ -200,8 +216,10 @@ def trade_evidence(steps):
 
 
 def combine_latest(latest):
-    """A chain's date from its trade links' (latest date, basis) pairs: as recent as its least recent link; a link
-    known to end before the invasion dates the chain even if another link is unknown; otherwise unknown -> (None, None)."""
+    """A chain's date from its trade links' (latest date, basis) pairs: as recent as its least recent link.
+
+    A link known to end before the invasion dates the chain even if another link is unknown; otherwise any unknown
+    link makes the chain unknown -> (None, None)."""
     known = [(d, b) for d, b in latest if d]
     oldest = min(known, key=lambda x: day(x[0])) if known else (None, None)
     if known and day(oldest[0]) < INVASION:
@@ -210,8 +228,10 @@ def combine_latest(latest):
 
 
 def chain_date(steps):
-    """When the chain was last active. Only trade links carry a meaningful date (the latest shipment); an ownership
-    link's date is when the stake began, and a stake that hasn't ended is current. So:
+    """When the chain was last active.
+
+    Only trade links carry a meaningful date (the latest shipment); an ownership link's date is when the stake
+    began, and a stake that hasn't ended is current. So:
     - a chain with trade links is only as recent as its least recent trade link:
       Bosch -> SABIC (last shipment 2023) -> buyer (last shipment 2019) dates to 2019
     - a pure ownership chain (ended stakes are already excluded) is ONGOING.
@@ -228,6 +248,7 @@ def is_former(step):
 
 def link_type(steps):
     """What kind of chain this is, or None if it should be ignored.
+
     - 'ownership': every step up the ownership chain, or every step down it
     - 'trade': every step toward suppliers, or every step toward customers
     - 'subsidiary trade': down to a subsidiary or branch it controls, then one trade link ("its subsidiary
@@ -241,8 +262,9 @@ def link_type(steps):
 
 
 def close_watchlist_links(watchlist):
-    """Parties on US/EU/UK lists reachable within MAX_HOPS through a valid chain, one row per party:
-    the closest chain, and among equally close ones the most recent."""
+    """The best chain to each US/EU/UK-listed party within MAX_HOPS, one row per party.
+
+    Best = the closest chain, and among equally close ones the most recent."""
     best = {}
     for link in valid_links(watchlist):
         key = link["sayari_url"]
@@ -298,11 +320,13 @@ def valid_links(watchlist):
 
 
 def first_value(value):
+    """A field's first value: Sayari gives some fields as a list and others as a single value."""
     return (value[0] if value else "") if isinstance(value, list) else (value or "")
 
 
 def shipment_day(shipment):
-    """A shipment's date: its departure (dispatch) date when the record has a full one, else its customs arrival date.
+    """A shipment's date: its departure (dispatch) date when it has a full one, else its customs arrival date.
+
     Customs data usually carries only one; Russian import records, for example, carry the arrival date."""
     dates = [first_value(shipment.get(k))[:10] for k in ("departure_date", "arrival_date")]
     full = [d for d in dates if len(d) == 10]  # a month-only "2023-07" is less precise than a full date
@@ -310,20 +334,27 @@ def shipment_day(shipment):
 
 
 def refine_with_shipments(link, own_records=()):
-    """Re-date a chosen link from the actual shipments (the relationship summary under-reports later dates).
-    Done for every direct trade, every subsidiary trade, and every two-hop chain not already dated after the
-    invasion: the links whose date decides a level or a claim in the report. Falls back to the summary dates
-    when the search finds no shipments for a step. A direct trade is searched from every Sayari record of the
-    supplier (own_records), since one company's shipments can be split across its records, and in both directions,
-    since the path Sayari returns for a party shows only one of them (ZF buys from ZF Kama and also ships to it)."""
+    """Re-date a link from its actual shipments (Sayari's shipment search).
+
+    The relationship summary under-reports later dates. Done for every direct trade, every subsidiary trade, and
+    every two-hop chain not already dated after the invasion: the links whose date decides a level or a claim in the
+    report. Falls back to the summary dates when the search finds no shipments for a step. A direct trade is
+    searched from every Sayari record of the supplier (own_records), since one company's shipments can be split
+    across its records, and in both directions, since the path Sayari returns for a party shows only one of them (ZF
+    buys from ZF Kama and also ships to it)."""
+    # Skip pure ownership links (no shipments to search) and two-hop trade chains already dated after the invasion:
+    # a later date can't change their level.
     if not link["_pairs"] or (link["hops"] == 2 and link["link_type"] == "trade" and link["since_invasion"]):
         return link
     latest, total, first = [], 0, []
     for (field, frm, to), step in zip(link["_pairs"], [s for s in link["_steps"] if s["field"] in TRADE]):
+        # A direct trade is searched from every record of the supplier, since its shipments can be split across them.
         starts = list(dict.fromkeys([frm] + list(own_records))) if link["hops"] == 1 else [frm]
         rows, complete, any_found = {}, True, False
         pairs = [(start, to) if field in SELLS_TO else (to, start) for start in starts]
         if link["hops"] == 1:
+            # Both directions: Sayari's path shows only one, but trade can run both ways (ZF buys from ZF Kama
+            # and also ships to it).
             pairs += [(buyer, seller) for seller, buyer in pairs]
         for seller, buyer in pairs:
             got = shipments(seller, buyer)
@@ -337,10 +368,11 @@ def refine_with_shipments(link, own_records=()):
             latest.append((dates[-1], "shipment" if found[1] else "at least"))
             first.append(dates[0])
             total += len(found[0])
-        else:
+        else:  # the search found no shipments for this step: fall back to the relationship summary's dates
             first_date, last_date, basis = step_dates(step)
             latest.append((last_date, basis))
             first += [first_date] if first_date else []
+    # The chain is only as recent as its least recent trade step.
     date, basis = combine_latest(latest)
     link.update({"chain_date": date, "date_basis": basis, "since_invasion": bool(date and day(date) >= INVASION)})
     if len(link["_pairs"]) == 1 and total:
@@ -349,16 +381,18 @@ def refine_with_shipments(link, own_records=()):
 
 
 def supplier_summary(upstream):
-    """Direct shipping suppliers, and how many carry labor-risk flags (Sayari's forced_labor category, which also
-    covers child labor). Counted separately by level: the high/critical ones here are network flags (the shipper owns,
-    or is owned by, a company tied to forced labor); the elevated ones are almost all US Labor Dept 'goods produced
-    with forced/child labor' product-country flags."""
+    """Count a supplier's direct shippers, and how many carry labor-risk flags.
+
+    Labor risk = Sayari's forced_labor category, which also covers child labor. Counted separately by level: the
+    high/critical ones here are network flags (the shipper owns, or is owned by, a company tied to forced labor);
+    the elevated ones are almost all US Labor Dept 'goods produced with forced/child labor' product-country flags."""
     data = (upstream or {}).get("data") or {}
     paths, entities = data.get("paths", []), data.get("entities", {})
     supplier_ids = {step["entity_id"] for p in paths for step in p["path"]}
     catalogue = risk_factors()
 
     def labor_levels(entity_id):
+        """The levels of one shipper's forced-labor flags, e.g. {"high", "elevated"}."""
         flags = entities.get(entity_id, {}).get("risk_factors", [])
         return {catalogue.loc[f, "level"] for f in flags if theme_of(f) == "forced_labor"}
 
@@ -372,8 +406,9 @@ def supplier_summary(upstream):
 
 
 def link_counts(links):
-    """Count listed counterparties by closeness (direct = 1 hop) and by date (since / before the invasion, or
-    undated when Sayari has no date on a trade link, which is never assumed to be old)."""
+    """Count listed counterparties by closeness (direct = 1 hop) and by date.
+
+    Dates: since / before the invasion, or undated when Sayari has no date on a trade link (never assumed old)."""
     direct = [l for l in links if l["hops"] == 1]
     return {
         "direct_links_since_invasion": sum(l["since_invasion"] for l in direct),
@@ -391,7 +426,9 @@ def within(row, column, max_hops):
 
 
 def exposure_level(row):
-    """A simple, explainable label. Rules, in order:
+    """Label a supplier "high", "medium" or "low" with simple rules a reviewer can audit.
+
+    Rules, in order:
     high   = sanctioned itself, or a DIRECT ownership/trade link to a US/EU/UK-listed party dated after 24 Feb 2022
     medium = an older or undated direct link, a 2-hop link since 24 Feb 2022 or of unknown date (undated is never
              assumed old), a high/critical export-control flag within 2 hops, or a high/critical forced-labor flag
@@ -408,6 +445,7 @@ def exposure_level(row):
 
 
 def main():
+    """Score every supplier; write output/supplier_risk.csv and output/watchlist_links.csv."""
     matches = pd.read_csv("output/matches.csv")
     # Served from cache; pooled over each supplier's records. Learn every source's date window first, so each
     # supplier's links are dated with the same knowledge whatever the list order.

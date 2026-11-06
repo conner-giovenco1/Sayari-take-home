@@ -42,15 +42,18 @@ def _get_token():
 
 
 def _cache_path(method, path, params, body):
+    """The cache file for one request: the same method, path and parameters always map to the same file."""
     key = json.dumps([method, path, params, body], sort_keys=True)
     name = path.strip("/").replace("/", "_")[:60]
     return CACHE_DIR / f"{name}_{hashlib.md5(key.encode()).hexdigest()[:10]}.json"
 
 
 def call(method, path, params=None, body=None, timeout=90, attempts=4):
-    """Make one API call. Returns the JSON body, or None if it still failed after retries (the error is
-    printed). Rate limits (429) wait as long as the server asks; server errors (5xx) and timeouts back off
-    5s, 10s, 15s. Client errors (other 4xx) are not retried."""
+    """Make one API call, served from the disk cache when it was made before.
+
+    Returns the JSON body, or None if it still failed after retries (the error is printed). Rate limits (429) wait
+    as long as the server asks; server errors (5xx) and timeouts back off 5s, 10s, 15s. Client errors (other 4xx)
+    are not retried."""
     cache_file = _cache_path(method, path, params, body)
     if cache_file.exists():
         return json.loads(cache_file.read_text())

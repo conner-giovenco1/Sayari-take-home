@@ -28,6 +28,7 @@ LEVEL_COLOR = {"high": RECENT, "medium": "#b9770e", "low": "#566573", "incomplet
 
 
 def links_chart(table):
+    """Draw the stacked bar chart of listed parties per supplier and save it to output/links_by_supplier.png."""
     data = table.set_index("supplier")
     cols = [c for c in SERIES if data[c].sum() > 0]
     data = data[data[cols].sum(axis=1) > 0].copy()
@@ -65,6 +66,7 @@ def links_chart(table):
 
 
 def main():
+    """Draw the chart from output/supplier_risk.csv."""
     links_chart(pd.read_csv("output/supplier_risk.csv"))
 
 

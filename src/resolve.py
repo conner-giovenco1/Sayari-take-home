@@ -68,7 +68,9 @@ def overlap(a, b):
 
 
 def name_match(wanted, found):
-    """Two-way: 'Continental' vs 'Continental Finance' scores 0.5, not 1.0."""
+    """How alike two company names are (0 to 1), checked both ways.
+
+    'Continental' vs 'Continental Finance' scores 0.5, not 1.0."""
     return min(overlap(wanted, found), overlap(found, wanted))
 
 
@@ -78,9 +80,11 @@ def legal_forms(text):
 
 
 def is_exact(legal_name, label, address_match):
-    """Same name AND same legal form. 'Tenneco GmbH' is not 'Tenneco Inc.' even though the words match.
-    If either name has no legal form to compare, the address must match instead (at least half of the list
-    address's words), so a namesake elsewhere ('INFINEON TECHNOLOGIES' in Sao Paulo) isn't taken for the company."""
+    """True if a record carries the supplier's legal name, legal form included.
+
+    'Tenneco GmbH' is not 'Tenneco Inc.' even though the words match. If either name has no legal form to compare,
+    the address must match instead (at least half of the list address's words), so a namesake elsewhere ('INFINEON
+    TECHNOLOGIES' in Sao Paulo) isn't taken for the company."""
     if name_match(legal_name, label) < 0.99:
         return False
     found, wanted = legal_forms(label), legal_forms(legal_name)
@@ -103,6 +107,7 @@ def search(names, address, country):
 
 
 def profile(entity_id):
+    """Sayari's summary of one record (name, addresses, risk flags, data counts); {} if the call failed."""
     return call("GET", f"/v1/entity_summary/{entity_id}") or {}
 
 
@@ -134,9 +139,11 @@ def evidence_for(entity_id, legal_names, address):
 
 
 def pick(candidates):
-    """Best candidate. Exact legal-name matches win outright; among them the record Sayari knows most about
-    wins (address only breaks near-ties), because sister companies share HQ addresses and thin duplicates
-    often carry the cleanest address. Without an exact match, rank on name + address."""
+    """Pick the best candidate record for one supplier.
+
+    Exact legal-name matches win outright; among them the record Sayari knows most about wins (address only breaks
+    near-ties), because sister companies share HQ addresses and thin duplicates often carry the cleanest address.
+    Without an exact match, rank on name + address."""
     exact = [c for c in candidates if c["exact_legal_name"]]
     if exact:
         return max(exact, key=lambda c: (math.log10(1 + c["data_volume"]) + 0.5 * c["address_match"]))
@@ -151,7 +158,7 @@ def fullest_in_group(best, candidates):
 
 
 def hand_checked(path=ROOT / "data" / "list_3_hand_checked.tsv"):
-    """name -> (record IDs, first one primary; verdict) from the hand review of the weaker matches."""
+    """The hand review of the weaker matches: name -> (record IDs, first one primary; verdict)."""
     if not Path(path).exists():
         return {}
     table = pd.read_csv(path, sep="\t")
@@ -159,7 +166,9 @@ def hand_checked(path=ROOT / "data" / "list_3_hand_checked.tsv"):
 
 
 def confidence(evidence):
-    """Judged on the record actually used (after the psa_id switch), not the one that won the search."""
+    """How sure the match is: "high", "medium" or "low - review".
+
+    Judged on the record actually used (after the psa_id switch), not the one that won the search."""
     if evidence["exact_legal_name"] and evidence["address_match"] >= 0.5:
         return "high"
     if evidence["exact_legal_name"] or (evidence["name_match"] >= 0.5 and evidence["address_match"] >= 0.5):
@@ -168,6 +177,7 @@ def confidence(evidence):
 
 
 def main(list_path=ROOT / "data" / "list_3.tsv", names_path=ROOT / "data" / "list_3_legal_names.tsv"):
+    """Match every supplier in the list to a Sayari record and write output/matches.csv."""
     suppliers = pd.read_csv(list_path, sep="\t").merge(pd.read_csv(names_path, sep="\t"), on="name", how="left")
     checked = hand_checked()
     rows = []

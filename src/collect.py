@@ -40,7 +40,8 @@ MAX_OFFSET = 1000  # API maximum offset
 
 
 def watchlist_pattern(entity_id, relationships):
-    """All paths within 2 hops for one pattern, following pages until Sayari says there are no more.
+    """Every watchlist path (at most 2 hops) for one relationship pattern, across all pages.
+
     Returns (paths, complete) or None if a call failed; a page Sayari marks partial makes it incomplete."""
     paths, offset, partial = [], 0, False
     while offset <= MAX_OFFSET:
@@ -58,7 +59,9 @@ def watchlist_pattern(entity_id, relationships):
 
 
 def watchlist_paths(entity_id):
-    """Paths from every pattern, pooled. score.py keeps the best valid path per listed party."""
+    """Watchlist paths from every pattern, pooled into one list.
+
+    score.py keeps the best valid path per listed party."""
     pooled, complete = [], True
     for relationships in PATTERNS.values():
         result = watchlist_pattern(entity_id, relationships)
@@ -74,25 +77,30 @@ UPSTREAM_LIMIT = 10000  # paths per call; this endpoint ignores `offset`, so one
 
 
 def upstream(entity_id):
-    """Every direct shipper (depth 1) in one call. Each path is one shipper and one product, so a large supplier has
-    several paths per shipper: Bosch has ~1,200 paths from ~370 shippers, Schaeffler ~4,100. A response that fills
-    the limit, or that Sayari marks partial, is marked incomplete. Returns None if the call failed."""
+    """Every direct shipper to one record (depth 1), in a single call.
+
+    Each path is one shipper and one product, so a large supplier has several paths per shipper: Bosch has ~1,200
+    paths from ~370 shippers, Schaeffler ~4,100. A response that fills the limit, or that Sayari marks partial, is
+    marked incomplete. Returns None if the call failed."""
     response = call("GET", f"/v1/supply_chain/upstream/{entity_id}", params={"max_depth": 1, "limit": UPSTREAM_LIMIT})
     if response is None:
         return None
     data = response.get("data") or {}
     paths = data.get("paths", [])
-    return {"data": {"paths": paths, "entities": data.get("entities") or {}}, "complete": len(paths) < UPSTREAM_LIMIT and not response.get("partial_results")}
+    complete = len(paths) < UPSTREAM_LIMIT and not response.get("partial_results")
+    return {"data": {"paths": paths, "entities": data.get("entities") or {}}, "complete": complete}
 
 
 SHIPMENT_PAGE, SHIPMENT_MAX = 100, 5000
 
 
 def shipments(seller_id, buyer_id):
-    """Every shipment Sayari holds from one company to another (/v1/trade/search/shipments), page by page: each comes
-    with its own arrival/departure date, HS code, description and weight. This is the reliable source of trade dates
-    (a relationship's trade_metadata.dates is only a partial list). Returns (shipments, complete) or None if the
-    first call failed; called from score.py for the links that matter, and cached like every other call."""
+    """Every shipment Sayari holds from one company to another, from the shipment search, page by page.
+
+    Uses /v1/trade/search/shipments. Each shipment comes with its own arrival/departure date, HS code, description
+    and weight. This is the reliable source of trade dates (a relationship's trade_metadata.dates is only a partial
+    list). Returns (shipments, complete) or None if the first call failed; called from score.py for the links that
+    matter, and cached like every other call."""
     rows, offset = {}, 0
     while offset < SHIPMENT_MAX:
         page = call("POST", "/v1/trade/search/shipments", params={"limit": SHIPMENT_PAGE, "offset": offset},
@@ -108,6 +116,7 @@ def shipments(seller_id, buyer_id):
 
 
 def collect(entity_id):
+    """The three raw datasets for one Sayari record: its profile, its watchlist paths and its direct shippers."""
     return {
         "profile": call("GET", f"/v1/entity_summary/{entity_id}"),
         "watchlist": watchlist_paths(entity_id),
@@ -122,8 +131,9 @@ def record_ids(match):
 
 
 def collect_supplier(match):
-    """collect() for every record of one supplier, pooled into one result. Any failed call makes that part None,
-    so missing data is never mistaken for "no risk"."""
+    """All the data for one supplier: collect() for each of its Sayari records, pooled into one result.
+
+    Any failed call makes that part None, so missing data is never mistaken for "no risk"."""
     parts = {e: collect(e) for e in record_ids(match)}
     profiles = [p["profile"] for p in parts.values()]
     watchlists = [p["watchlist"] for p in parts.values()]
@@ -140,6 +150,7 @@ def collect_supplier(match):
 
 
 def main():
+    """Collect (and cache) the data for every matched supplier, printing progress."""
     matches = pd.read_csv("output/matches.csv").dropna(subset=["entity_id"])
     start = time.time()
     for i, row in enumerate(matches.itertuples(), 1):

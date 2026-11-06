@@ -43,6 +43,7 @@ tr { break-inside: avoid; }  /* a table may split between rows, never inside one
 
 
 def main():
+    """Turn report/report.md into report.html, then print that to report.pdf with headless Chrome if found."""
     report = Path("report")
     body = markdown.markdown((report / "report.md").read_text(), extensions=["tables"])
     html = report / "report.html"
