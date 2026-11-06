@@ -112,6 +112,19 @@ def is_listed(target):
                   if k.startswith(RELEVANT_LISTS) and k in catalogue.index and catalogue.loc[k, "risk_type"] == "seed")
 
 
+def listed_since(target):
+    """The earliest date Sayari gives for a party's US/EU/UK listings, or None if it gives none.
+
+    Sayari stores the date on each list flag (risk metadata `from_date`). These matched official sources for every
+    party checked by hand, except KAMAZ, where Sayari's record misses the EU's 16 Mar 2022 trade ban."""
+    risk = target.get("risk") or {}
+    dates = []
+    for flag in is_listed(target):
+        value = (risk[flag].get("metadata") or {}).get("from_date")
+        dates += [d[:10] for d in (value if isinstance(value, list) else [value]) if d]
+    return min(dates, default=None)
+
+
 def own_relationship(step):
     """The relationship data for the step's own type only.
 
@@ -312,6 +325,7 @@ def valid_links(watchlist):
             "trade_records": records,
             "first_trade": first_trade,
             "lists": ", ".join(lists),
+            "listed_since": listed_since(target),  # Sayari's earliest US/EU/UK listing date
             "sayari_url": target.get("entity_url"),
             "from_record": path.get("from_record"),
             "_steps": real, "_pairs": pairs,
@@ -378,6 +392,22 @@ def refine_with_shipments(link, own_records=()):
     if len(link["_pairs"]) == 1 and total:
         link.update({"trade_records": total, "first_trade": min(first, key=day)})
     return link
+
+
+def after_listing(link):
+    """Whether the link was still active after the party was listed: "yes", "no", "current stake" or "unknown".
+
+    Compares the link's latest date with Sayari's listing date. A bound that can't settle it ("at least" a date
+    before the listing, "at most" a date after it) is "unknown"."""
+    date, basis, listed = link["chain_date"], link["date_basis"], link["listed_since"]
+    if date == ONGOING:
+        return "current stake"
+    if not date or not listed:
+        return "unknown"
+    after = day(date) > listed
+    if (after and basis == "at most") or (not after and basis == "at least"):
+        return "unknown"
+    return "yes" if after else "no"
 
 
 def supplier_summary(upstream):
@@ -460,6 +490,8 @@ def main():
         profiles = data["profiles"] or []
         flags = [flag_summary(p) for p in profiles]
         links = [refine_with_shipments(link, record_ids(m)) for link in close_watchlist_links(data["watchlist"])]
+        for link in links:
+            link["after_listing"] = after_listing(link)
         row = {"supplier": m.input_name, "sayari_record": m.entity_label, "match_confidence": m.confidence,
                "records_used": len(record_ids(m)),
                # Listed itself on a US/EU/UK list (Sayari's own "sanctioned" flag also covers other countries' lists).

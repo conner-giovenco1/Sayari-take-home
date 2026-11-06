@@ -27,7 +27,7 @@ tr { break-inside: avoid; }  /* a table may split between rows, never inside one
 <li><strong>Schaeffler → AvtoVAZ (Russian carmaker): inside the US grace period.</strong> Three shipments in Oct–Nov 2023, after the US sanctioned AvtoVAZ (14 Sep) but before its grace period ended (13 Dec); the EU listed AvtoVAZ only in 2025.</li>
 <li><strong>Mahle → KAMAZ: possibly inside the EU grace period.</strong> One shipment from its subsidiary Mahle Behr, 7 Apr 2022.</li>
 </ol>
-<p><strong>Early warnings: 7 suppliers (including ZF and Schaeffler) traded directly after the invasion (24 Feb 2022) with companies the US, EU or UK sanctioned only later.</strong> Their 12 other trades all came before the sanction: not breaches, but checking these seven suppliers' names against sanctions lists finds nothing. (Bans on specific goods were not checked.)</p>
+<p><strong>Early warnings: 7 suppliers (including ZF and Schaeffler) traded directly after the invasion (24 Feb 2022) with companies the US, EU or UK sanctioned only later.</strong> Their 12 other trades all came before the sanction: not breaches, but a sanctions-list check of these seven names finds nothing. (Bans on specific goods were not checked.)</p>
 <table>
 <thead>
 <tr>
@@ -72,7 +72,7 @@ tr { break-inside: avoid; }  /* a table may split between rows, never inside one
 <td></td>
 <td><strong>to UAZ</strong> (1), Russian vehicle maker</td>
 <td>30 Mar 2022</td>
-<td>EU asset freeze 3 Jun 2022</td>
+<td>EU asset freeze 2 Jun 2022</td>
 </tr>
 <tr>
 <td></td>
@@ -84,7 +84,7 @@ tr { break-inside: avoid; }  /* a table may split between rows, never inside one
 <td></td>
 <td>Vitesco Mexico <strong>from Yangzhou Yangjie</strong> (2), China²</td>
 <td>18 Jun 2024</td>
-<td>EU asset freeze 23 Apr 2026</td>
+<td>EU asset freeze 22 Apr 2026</td>
 </tr>
 <tr>
 <td><strong>Bosch</strong></td>
@@ -124,8 +124,8 @@ tr { break-inside: avoid; }  /* a table may split between rows, never inside one
 </tr>
 </tbody>
 </table>
-<p>Dates are customs dates: dispatch if recorded, else arrival. US = OFAC SDN list; UK = UK sanctions list. ¹ Matched by name. ² Vitesco joined Schaeffler in Oct 2024. Robert Bosch Samara (Bosch traded with it to Feb 2023) is also US-listed: renamed NAMI Innovative Components after state-owned NAMI bought it in June 2023, it joined the SDN list on 23 Feb 2024, a year after Bosch's last shipment. A name search for "Bosch" misses it; Sayari's record links the two names.</p>
-<p><strong>Next steps for the compliance team:</strong> (1) ask ZF and Mahle for the contract dates and any authorisation behind their KAMAZ shipments, Cummins/Meritor about Ozkaya, and Schaeffler about any US link to its late-2023 AvtoVAZ shipments; (2) check whether the other relationships continued after each listing. Dates, sources and Sayari IDs for all 40 trades checked: <code>data/designation_dates.tsv</code>.</p>
+<p>Dates are customs dates: dispatch if recorded, else arrival. US = OFAC SDN list; UK = UK sanctions list. Listing dates are Sayari's, except KAMAZ's EU ban. ¹ Matched by name. ² Vitesco joined Schaeffler in Oct 2024. Robert Bosch Samara (Bosch traded with it to Feb 2023) is also US-listed: renamed NAMI Innovative Components after state-owned NAMI bought it in June 2023, it joined the SDN list on 23 Feb 2024, a year after Bosch's last shipment. A name search for "Bosch" misses it; Sayari's record links the two names.</p>
+<p><strong>Next steps for the compliance team:</strong> (1) ask ZF and Mahle for the contract dates and any authorisation behind their KAMAZ shipments, Cummins/Meritor about Ozkaya, and Schaeffler about any US link to its late-2023 AvtoVAZ shipments; (2) check whether the other relationships continued after each listing. Listing dates (Sayari's and official) for the 40 trades: <code>data/designation_dates.tsv</code>.</p>
 <p><strong>All 49 suppliers at a glance</strong> (the four cases above come first, whatever their level). A <em>hop</em> = one step (owner, subsidiary, buyer or seller); <em>listed</em> = on a US, EU or UK list today.</p>
 <table>
 <thead>
@@ -159,7 +159,7 @@ tr { break-inside: avoid; }  /* a table may split between rows, never inside one
 <li><strong>Match</strong> each supplier to every Sayari record with its exact legal name (<code>/v1/resolution</code>, <code>/v1/entity_summary</code>).</li>
 <li><strong>Pull</strong> risk flags, ownership and trade paths (not ended) within two hops to listed parties (<code>/v1/watchlist</code>), individual shipment dates for direct and subsidiary trades (<code>/v1/trade/search/shipments</code>), and direct shippers (<code>/v1/supply_chain/upstream</code>).</li>
 <li><strong>Score</strong> with my own triage rules (screening, not a legal finding), auditable by a compliance officer: <strong>high</strong> = a current direct ownership link, or direct trade dated after 24 Feb 2022, with a party now on a US/EU/UK list; <strong>medium</strong> = an older or undated direct link, a two-hop link since then or of unknown date, or a high/critical export-control flag within 2 hops or forced-labor flag within 3; <strong>low</strong> = none of these.</li>
-<li><strong>Check by hand</strong> when the counterparty in each post-invasion direct or subsidiary trade was listed (40 trades; official US, EU and UK sources).</li>
+<li><strong>Date each listing</strong> with Sayari's listing dates, checked against official sources for the 40 post-invasion trades: all match except KAMAZ's EU ban (16 Mar 2022), which Sayari misses.</li>
 </ol>
 <h2>Assumptions</h2>
 <ul>
@@ -175,7 +175,7 @@ tr { break-inside: avoid; }  /* a table may split between rows, never inside one
 <p>A name screen of these 49 suppliers finds nothing. Sayari's shipment-level trade data, ownership graph and per-list tags found ZF's gearboxes reaching KAMAZ after the EU ban, post-restriction shipments by two subsidiaries (it takes ownership to reach them), and 7 suppliers trading with companies before regulators acted.</p>
 <h2>What I'd do next</h2>
 <ul>
-<li><strong>Score on listing dates, not the invasion date</strong> (done by hand here for 40 trades), <strong>monitor</strong> with Sayari's alerts, and <strong>confirm the matches</strong> with the client's vendor master.</li>
+<li><strong>Score on Sayari's listing dates</strong> (already in the output), not the invasion date, <strong>monitor</strong> with Sayari's alerts, and <strong>confirm the matches</strong> with the client's vendor master.</li>
 <li><strong>Go deeper:</strong> tier-2/3 suppliers, negative news, labor risk (5 suppliers have a shipper flagged for forced labor).</li>
 </ul>
 <h2 class="appendix">Appendix: the 30 suppliers with a direct or recent link</h2>
