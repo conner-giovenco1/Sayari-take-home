@@ -5,14 +5,14 @@
 "We buy from 49 tier-1 suppliers. None of them is sanctioned. Is any of them still doing business with parties that our US, EU or UK sanctions obligations cover, through who owns them, who they own, or who they trade with?"
 
 ## What Sayari shows
-**Short answer: four sets of shipments need checking first, all by German companies.** Sayari's shipment records show:
+**Short answer: four sets of shipments, all from German companies, arrived after a sanction took effect.** Not necessarily illegal: sanctions usually allow a *wind-down* (a grace period for older contracts), so each case needs contract dates. Strongest first:
 
-1. **ZF → KAMAZ:** 3 gearbox shipments and a switch arrived after the EU banned transactions with KAMAZ (16 Mar 2022). The last, 16 Jun 2022 (2.8 t of gearboxes), came after the wind-down for older contracts ended (15 May) and after the EU froze KAMAZ's assets (3 Jun).
-2. **Mahle → KAMAZ:** a shipment from its subsidiary Mahle Behr arrived on 7 Apr 2022, three weeks after the ban; possibly within the wind-down.
-3. **Cummins/Meritor → Ozkaya (Turkey):** two shipments of axle parts from Meritor Germany arrived on 5 Jan 2024, 24 days after the US sanctioned Ozkaya.
-4. **Schaeffler → AvtoVAZ:** 3 shipments in Oct–Nov 2023, after the US sanctioned AvtoVAZ (14 Sep 2023), during the US wind-down period (to 13 Dec 2023); the EU listed AvtoVAZ only in 2025.
+1. **ZF → KAMAZ (Russian truck maker): after every grace period.** EU ban on 16 Mar 2022 (grace period to 15 May), asset freeze on 3 Jun. Four shipments arrived after the ban; the last (2.8 t of gearboxes, 16 Jun 2022) after both.
+2. **Meritor (Cummins) → Ozkaya (Turkey): no grace period applied.** Two shipments of axle parts from Meritor Germany arrived on 5 Jan 2024, 24 days after the US sanctioned Ozkaya.
+3. **Schaeffler → AvtoVAZ (Russian carmaker): inside the US grace period.** Three shipments in Oct–Nov 2023, after the US sanctioned AvtoVAZ (14 Sep) but before its grace period ended (13 Dec); the EU listed AvtoVAZ only in 2025.
+4. **Mahle → KAMAZ: possibly inside the EU grace period.** One shipment from its subsidiary Mahle Behr, 7 Apr 2022.
 
-**Beyond these, 7 of 49 suppliers traded directly after Russia's full-scale invasion (24 Feb 2022) with companies the US, EU or UK restricted later**: 12 more trades, all before the restriction. These are **early warnings**; a name screen clears all seven. (Goods-based export bans are out of scope.)
+**Early warnings: 7 suppliers (including ZF and Schaeffler) traded directly after the invasion (24 Feb 2022) with companies the US, EU or UK sanctioned only later.** Their 12 other trades all came before the sanction: not breaches, but a name check clears all seven. (Bans on specific goods were not checked.)
 
 | Supplier | Sayari's shipments to/from (count) | Latest shipment | First trade restriction |
 |---|---|---|---|
