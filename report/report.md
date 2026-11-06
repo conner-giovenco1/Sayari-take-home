@@ -31,7 +31,7 @@
 | **Infineon** | **to Compel** (63), Russian electronics distributor | 1 Mar 2022 | US 20 Jul 2023 |
 | **Hyundai Wia** | **to ATM Grupp** (25), Russian machine-tool firm | 2 Jul 2022 | US 23 Feb 2024 |
 
-Dates are customs dates: dispatch if recorded, else arrival. US = OFAC SDN list; UK = UK sanctions list. ¹ Matched by name. ² Vitesco joined Schaeffler in Oct 2024. Sayari also tags Robert Bosch Samara (Bosch traded with it to Feb 2023) as US-listed. We found no listing of its own: its 100% owner since June 2023, FSUE NAMI, joined the SDN list on 23 Feb 2024, so it is blocked under OFAC's 50% rule from then, a year after Bosch's last shipment.
+Dates are customs dates: dispatch if recorded, else arrival. US = OFAC SDN list; UK = UK sanctions list. ¹ Matched by name. ² Vitesco joined Schaeffler in Oct 2024. Robert Bosch Samara (Bosch traded with it to Feb 2023) is also US-listed: renamed NAMI Innovative Components after state-owned NAMI bought it in June 2023, it joined the SDN list on 23 Feb 2024, a year after Bosch's last shipment. A name search for "Bosch" misses it; Sayari's record links the two names.
 
 **Next steps for the compliance team:** (1) ask ZF and Mahle for the contract dates and any authorisation behind their KAMAZ shipments, Cummins/Meritor about Ozkaya, and Schaeffler about any US link to its late-2023 AvtoVAZ shipments; (2) check whether the other relationships continued after each listing. Dates, sources and Sayari IDs for all 40 trades checked: `data/designation_dates.tsv`.
 
@@ -70,4 +70,4 @@ A name screen of these 49 suppliers finds nothing. Sayari's shipment-level trade
 
 ![Linked parties per supplier](../output/links_by_supplier.png)
 
-A long grey bar (many two-hop links) is weaker evidence than one red segment. One of Bosch's two post-invasion direct links (red) is Robert Bosch Samara (Sayari's US tag comes from its owner NAMI, listed 23 Feb 2024; Bosch's last shipment was Feb 2023). Full detail per supplier: `output/supplier_risk.csv`. Every linked party with its closest path, date (and whether the date is observed or a bound), lists and Sayari ID: `output/watchlist_links.csv`. Match evidence: `output/matches.csv`.
+A long grey bar (many two-hop links) is weaker evidence than one red segment. One of Bosch's two post-invasion direct links (red) is Robert Bosch Samara (SDN-listed 23 Feb 2024 under its new name, NAMI Innovative Components; Bosch's last shipment was Feb 2023). Full detail per supplier: `output/supplier_risk.csv`. Every linked party with its closest path, date (and whether the date is observed or a bound), lists and Sayari ID: `output/watchlist_links.csv`. Match evidence: `output/matches.csv`.
