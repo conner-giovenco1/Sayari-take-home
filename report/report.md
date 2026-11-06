@@ -2,7 +2,7 @@
 **A proof of concept on Sayari's API for a carmaker's procurement and compliance team** · Conner Giovenco · November 2026
 
 ## The client's question
-"We buy from 49 tier-1 suppliers. None of them is sanctioned. Is any of them still doing business with parties that our US, EU or UK sanctions obligations cover, through who owns them, who they own, or who they trade with?"
+"We buy from 49 tier-1 suppliers. None of them is sanctioned. Are any of them still doing business with parties that our US, EU or UK sanctions obligations cover, through who owns them, who they own, or who they trade with?"
 
 ## What Sayari shows
 **Short answer: four sets of shipments, all from German companies, arrived after a sanction took effect.** Not necessarily illegal: sanctions usually allow a *wind-down* (a grace period for older contracts), so each case needs contract dates. Strongest first:
